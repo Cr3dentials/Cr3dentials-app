@@ -9,21 +9,26 @@
 
 import { Set, Router, Route } from '@redwoodjs/router'
 
+import MainLayout from 'src/layouts/MainLayout'
 import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
 
 const Routes = () => {
   return (
     <Router>
-      <Route path="/dashboard" page={DashboardPage} name="dashboard" />
-      <Route path="/reports" page={ReportsPage} name="reports" />
-      <Route path="/transactions" page={TransactionsPage} name="transactions" />
-      <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
-        <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
-        <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
-        <Route path="/posts/{id:Int}" page={PostPostPage} name="post" />
-        <Route path="/posts" page={PostPostsPage} name="posts" />
+      <Set wrap={MainLayout}>
+        <Route path="/profile" page={ProfilePage} name="profile" />
+        <Route path="/" page={HomePage} name="home" />
+        <Route path="/dashboard" page={DashboardPage} name="dashboard" />
+        <Route path="/reports" page={ReportsPage} name="reports" />
+        <Route path="/transactions" page={TransactionsPage} name="transactions" />
+        <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
+          <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
+          <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
+          <Route path="/posts/{id:Int}" page={PostPostPage} name="post" />
+          <Route path="/posts" page={PostPostsPage} name="posts" />
+        </Set>
+        <Route notfound page={NotFoundPage} />
       </Set>
-      <Route notfound page={NotFoundPage} />
     </Router>
   )
 }
