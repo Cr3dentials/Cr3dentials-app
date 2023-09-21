@@ -16,11 +16,11 @@ const Routes = () => {
   return (
     <Router>
       <Set wrap={MainLayout}>
+        <Route path="/invoices" page={InvoicesPage} name="invoices" />
         <Route path="/profile" page={ProfilePage} name="profile" />
         <Route path="/" page={HomePage} name="home" />
         <Route path="/dashboard" page={DashboardPage} name="dashboard" />
         <Route path="/reports" page={ReportsPage} name="reports" />
-        <Route path="/transactions" page={TransactionsPage} name="transactions" />
         <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
           <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
           <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />

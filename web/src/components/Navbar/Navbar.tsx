@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className="navbar-right">
         <ul>
           <li>
-            <Link to={routes.transactions()}>Transactions</Link>
+            <Link to={routes.invoices()}>Invoices</Link>
           </li>
           <li>
             <Link to={routes.reports()}>Reports</Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
             <Link to={routes.dashboard()}>Dashboard</Link>
           </li>
           <li>
-            <Link to={routes.profile()}>Profile</Link>
+            <Link to={routes.profile()}></Link>
           </li>
           {/* Add more navigation links as needed */}
         </ul>
