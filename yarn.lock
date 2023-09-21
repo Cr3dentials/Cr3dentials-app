@@ -20291,6 +20291,7 @@ __metadata:
     "@redwoodjs/router": 6.2.3
     "@redwoodjs/vite": 6.2.3
     "@redwoodjs/web": 6.2.3
+    humanize-string: 2.1.0
     prop-types: 15.8.1
     react: 18.2.0
     react-dom: 18.2.0
