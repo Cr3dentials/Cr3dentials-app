@@ -5693,6 +5693,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/engines@npm:5.3.1":
+  version: 5.3.1
+  resolution: "@prisma/engines@npm:5.3.1"
+  checksum: 17e5a80077a8ec58dd95cdf4204a6491329f98eba14b406abad24ceaab689277c82aab9a839745b077fda118f4e9b85a7f1c7787d308d0a09df990a03af823df
+  languageName: node
+  linkType: hard
+
 "@prisma/fetch-engine@npm:5.2.0":
   version: 5.2.0
   resolution: "@prisma/fetch-engine@npm:5.2.0"
@@ -9604,6 +9611,17 @@ __metadata:
   version: 4.8.1
   resolution: "axe-core@npm:4.8.1"
   checksum: 160887aac11d0a249adade104379bb3b05d1bca26386137b50ea82861cc4bbbdcc76091309b3c5f03da1fae0f27ab02d8d4aef3d041a16e67f3a012cb5080c90
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "axios@npm:1.5.0"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: a3e11e53ff10fa02defb17c82672599a5ef31f8a6f2b0ea1564a61271226a924baef3a899a03c6850bddb0e9a614acdf615e07b30f382403b5e1fc7ec2eef464
   languageName: node
   linkType: hard
 
@@ -14050,6 +14068,16 @@ __metadata:
     debug:
       optional: true
   checksum: da5932b70e63944d38eecaa16954bac4347036f08303c913d166eda74809d8797d38386e3a0eb1d2fe37d2aaff2764cce8e9dbd99459d860cf2cdfa237923b5f
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.0":
+  version: 1.15.3
+  resolution: "follow-redirects@npm:1.15.3"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 915a2cf22e667bdf47b1a43cc6b7dce14d95039e9bbf9a24d0e739abfbdfa00077dd43c86d4a7a19efefcc7a99af144920a175eedc3888d268af5df67c272ee5
   languageName: node
   linkType: hard
 
@@ -19799,6 +19827,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prisma@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "prisma@npm:5.3.1"
+  dependencies:
+    "@prisma/engines": 5.3.1
+  bin:
+    prisma: build/index.js
+  checksum: c3058af3e3e2f9771fe40602a33ccb29055c45f9cbdea6e81df584720f23cfb75c829042cdf57e7fa0fc226ba1a69ba524c8b10d54de2304201e3ea4e6f69564
+  languageName: node
+  linkType: hard
+
 "process-nextick-args@npm:~2.0.0":
   version: 2.0.1
   resolution: "process-nextick-args@npm:2.0.1"
@@ -19888,6 +19927,13 @@ __metadata:
     forwarded: 0.2.0
     ipaddr.js: 1.9.1
   checksum: c3eed999781a35f7fd935f398b6d8920b6fb00bbc14287bc6de78128ccc1a02c89b95b56742bf7cf0362cc333c61d138532049c7dedc7a328ef13343eff81210
+  languageName: node
+  linkType: hard
+
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: fe7dd8b1bdbbbea18d1459107729c3e4a2243ca870d26d34c2c1bcd3e4425b7bcc5112362df2d93cc7fb9746f6142b5e272fd1cc5c86ddf8580175186f6ad42b
   languageName: node
   linkType: hard
 
@@ -20465,6 +20511,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redwood@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "redwood@npm:0.0.1"
+  checksum: 7d94f7572a81eb128395227f34518dbdf7e32274d5f7f63a0fd38427ad72ddd42c929b6bc1936df66d7f83b27b33d579636ca909becdd801b75e588ff49ba24b
+  languageName: node
+  linkType: hard
+
 "regenerate-unicode-properties@npm:^10.1.0":
   version: 10.1.0
   resolution: "regenerate-unicode-properties@npm:10.1.0"
@@ -20958,6 +21011,10 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@redwoodjs/core": 6.2.3
+    axios: ^1.5.0
+    graphql-tag: ^2.12.6
+    prisma: ^5.3.1
+    redwood: ^0.0.1
   languageName: unknown
   linkType: soft
 
