@@ -1,13 +1,13 @@
+import type {
+  DeleteInvoiceMutationVariables,
+  FindInvoiceById,
+} from 'types/graphql'
+
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { timeTag } from 'src/lib/formatters'
-
-import type {
-  DeleteInvoiceMutationVariables,
-  FindInvoiceById,
-} from 'types/graphql'
 
 const DELETE_INVOICE_MUTATION = gql`
   mutation DeleteInvoiceMutation($id: Int!) {

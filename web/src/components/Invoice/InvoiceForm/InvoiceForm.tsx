@@ -1,14 +1,15 @@
+import type { EditInvoiceById, UpdateInvoiceInput } from 'types/graphql'
+
 import {
   Form,
   FormError,
   FieldError,
   Label,
-  TextField,
+  NumberField,
   DatetimeLocalField,
+  TextField,
   Submit,
 } from '@redwoodjs/forms'
-
-import type { EditInvoiceById, UpdateInvoiceInput } from 'types/graphql'
 import type { RWGqlError } from '@redwoodjs/forms'
 
 const formatDatetime = (value) => {
@@ -49,12 +50,12 @@ const InvoiceForm = (props: InvoiceFormProps) => {
           Amount
         </Label>
 
-        <TextField
+        <NumberField
           name="amount"
           defaultValue={props.invoice?.amount}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ valueAsNumber: true, required: true }}
+          validation={{ required: true }}
         />
 
         <FieldError name="amount" className="rw-field-error" />
@@ -90,7 +91,6 @@ const InvoiceForm = (props: InvoiceFormProps) => {
           defaultValue={props.invoice?.payerEmail}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
         />
 
         <FieldError name="payerEmail" className="rw-field-error" />
@@ -108,6 +108,7 @@ const InvoiceForm = (props: InvoiceFormProps) => {
           defaultValue={props.invoice?.payerPhone}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
         />
 
         <FieldError name="payerPhone" className="rw-field-error" />
@@ -138,12 +139,11 @@ const InvoiceForm = (props: InvoiceFormProps) => {
           Late fee
         </Label>
 
-        <TextField
+        <NumberField
           name="lateFee"
           defaultValue={props.invoice?.lateFee}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ valueAsNumber: true }}
         />
 
         <FieldError name="lateFee" className="rw-field-error" />

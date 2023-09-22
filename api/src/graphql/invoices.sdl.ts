@@ -1,12 +1,12 @@
 export const schema = gql`
   type Invoice {
     id: Int!
-    amount: Float!
+    amount: Int!
     dueDate: DateTime!
-    payerEmail: String!
-    payerPhone: String
+    payerEmail: String
+    payerPhone: String!
     currency: String!
-    lateFee: Float
+    lateFee: Int
     description: String
     createdAt: DateTime!
   }
@@ -17,22 +17,22 @@ export const schema = gql`
   }
 
   input CreateInvoiceInput {
-    amount: Float!
+    amount: Int!
     dueDate: DateTime!
-    payerEmail: String!
-    payerPhone: String
+    payerEmail: String
+    payerPhone: String!
     currency: String!
-    lateFee: Float
+    lateFee: Int
     description: String
   }
 
   input UpdateInvoiceInput {
-    amount: Float
+    amount: Int
     dueDate: DateTime
     payerEmail: String
     payerPhone: String
     currency: String
-    lateFee: Float
+    lateFee: Int
     description: String
   }
 

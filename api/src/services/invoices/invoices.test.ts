@@ -31,16 +31,16 @@ describe('invoices', () => {
   scenario('creates a invoice', async () => {
     const result = await createInvoice({
       input: {
-        amount: 1500557.419242865,
-        dueDate: '2023-09-21T19:14:03.074Z',
-        payerEmail: 'String',
+        amount: 8268374,
+        dueDate: '2023-09-22T10:57:06.598Z',
+        payerPhone: 'String',
         currency: 'String',
       },
     })
 
-    expect(result.amount).toEqual(1500557.419242865)
-    expect(result.dueDate).toEqual(new Date('2023-09-21T19:14:03.074Z'))
-    expect(result.payerEmail).toEqual('String')
+    expect(result.amount).toEqual(8268374)
+    expect(result.dueDate).toEqual(new Date('2023-09-22T10:57:06.598Z'))
+    expect(result.payerPhone).toEqual('String')
     expect(result.currency).toEqual('String')
   })
 
@@ -48,10 +48,10 @@ describe('invoices', () => {
     const original = (await invoice({ id: scenario.invoice.one.id })) as Invoice
     const result = await updateInvoice({
       id: original.id,
-      input: { amount: 3627268.8614893346 },
+      input: { amount: 8282219 },
     })
 
-    expect(result.amount).toEqual(3627268.8614893346)
+    expect(result.amount).toEqual(8282219)
   })
 
   scenario('deletes a invoice', async (scenario: StandardScenario) => {

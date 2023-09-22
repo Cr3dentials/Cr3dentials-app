@@ -11,7 +11,6 @@ import {
   Button,
   Heading,
 } from '@chakra-ui/react'
-import axios from 'axios'
 
 function InvoiceForm() {
   const [selectedOption, setSelectedOption] = useState('Dollar')
@@ -38,10 +37,7 @@ function InvoiceForm() {
 
     // Send the invoice data to your server
     try {
-      const response = await axios.post('/api/send-invoice', invoiceData)
-      console.log('Invoice sent successfully:', response.data)
       // Optionally, you can handle the response here (e.g., show a success message).
-
       // After sending the invoice, you may want to refetch the data from the InvoiceCell
       // to update the list of invoices displayed on the page.
       // Uncomment the following line to refetch the data:

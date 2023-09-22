@@ -1,21 +1,22 @@
 import type { Prisma, Invoice } from '@prisma/client'
+
 import type { ScenarioData } from '@redwoodjs/testing/api'
 
 export const standard = defineScenario<Prisma.InvoiceCreateArgs>({
   invoice: {
     one: {
       data: {
-        amount: 2056215.9009348701,
-        dueDate: '2023-09-21T19:14:03.103Z',
-        payerEmail: 'String',
+        amount: 702207,
+        dueDate: '2023-09-22T10:57:06.618Z',
+        payerPhone: 'String',
         currency: 'String',
       },
     },
     two: {
       data: {
-        amount: 662277.7215288434,
-        dueDate: '2023-09-21T19:14:03.103Z',
-        payerEmail: 'String',
+        amount: 3485330,
+        dueDate: '2023-09-22T10:57:06.618Z',
+        payerPhone: 'String',
         currency: 'String',
       },
     },
