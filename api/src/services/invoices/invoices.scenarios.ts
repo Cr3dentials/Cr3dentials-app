@@ -8,6 +8,7 @@ export const standard = defineScenario<Prisma.InvoiceCreateArgs>({
       data: {
         amount: 702207,
         dueDate: '2023-09-22T10:57:06.618Z',
+        payerEmail: 'String',
         payerPhone: 'String',
         currency: 'String',
       },
@@ -16,6 +17,7 @@ export const standard = defineScenario<Prisma.InvoiceCreateArgs>({
       data: {
         amount: 3485330,
         dueDate: '2023-09-22T10:57:06.618Z',
+        payerEmail: 'String',
         payerPhone: 'String',
         currency: 'String',
       },

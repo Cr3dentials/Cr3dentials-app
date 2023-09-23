@@ -1,10 +1,10 @@
+import type { CreateInvoiceInput } from 'types/graphql'
+
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import InvoiceForm from 'src/components/Invoice/InvoiceForm'
-
-import type { CreateInvoiceInput } from 'types/graphql'
 
 const CREATE_INVOICE_MUTATION = gql`
   mutation CreateInvoiceMutation($input: CreateInvoiceInput!) {
