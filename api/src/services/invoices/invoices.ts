@@ -16,7 +16,10 @@ export const createInvoice: MutationResolvers['createInvoice'] = ({
   input,
 }) => {
   return db.invoice.create({
-    data: input,
+    data: {
+      ...input, // Spread the input data
+      paymentStatus: 'Unpaid', // Set the payment status to "unpaid"
+    },
   })
 }
 
@@ -26,6 +29,7 @@ export const updateInvoice: MutationResolvers['updateInvoice'] = ({
 }) => {
   return db.invoice.update({
     data: input,
+
     where: { id },
   })
 }

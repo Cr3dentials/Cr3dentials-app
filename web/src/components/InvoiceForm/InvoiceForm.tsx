@@ -12,6 +12,10 @@ import {
   Heading,
 } from '@chakra-ui/react'
 
+import { useMutation } from '@redwoodjs/web'
+
+import CREATE_INVOICE_MUTATION from 'src/services/invoices'
+
 function InvoiceForm() {
   const [selectedOption, setSelectedOption] = useState('Dollar')
   const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 10))
@@ -20,6 +24,7 @@ function InvoiceForm() {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [lateFee, setLateFee] = useState('')
+  const [createInvoice] = useMutation(CREATE_INVOICE_MUTATION)
 
   const sendInvoice = async () => {
     // Create a JSON object with the invoice data
@@ -29,14 +34,20 @@ function InvoiceForm() {
       payerEmail,
       payerPhoneNumber,
       description,
-      amount,
-      lateFee,
+      amount: parseFloat(amount),
+      lateFee: parseFloat(lateFee),
+      paymentStatus: 'UNPAID',
     }
 
     console.log('Invoice Data:', invoiceData)
 
     // Send the invoice data to your server
     try {
+      const { data } = await createInvoice({
+        variables: { input: invoiceData },
+      })
+
+      console.log('Data from Mutation:',data);
       // Optionally, you can handle the response here (e.g., show a success message).
       // After sending the invoice, you may want to refetch the data from the InvoiceCell
       // to update the list of invoices displayed on the page.
