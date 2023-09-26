@@ -18,6 +18,7 @@ export const QUERY = gql`
       currency
       lateFee
       description
+      paymentStatus
       createdAt
     }
   }
@@ -33,6 +34,7 @@ const UPDATE_INVOICE_MUTATION = gql`
       currency
       lateFee
       description
+      paymentStatus
       createdAt
     }
   }

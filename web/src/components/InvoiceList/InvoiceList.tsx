@@ -1,8 +1,8 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 
 const invoices = [
-  { id: 1, dueDate: '2023-09-30', status: 'unpaid' },
-  { id: 2, dueDate: '2023-10-15', status: 'paid' },
+  { id: 1, dueDate: '2023-09-30', paymentStatus: 'unpaid' },
+  { id: 2, dueDate: '2023-10-15', paymentStatus: 'paid' },
   // Add more invoice data here
 ]
 
@@ -27,9 +27,9 @@ const InvoiceList = () => {
           <Tr key={invoice.id}>
             <Td>{invoice.id}</Td>
             <Td>{invoice.dueDate}</Td>
-            <Td>{invoice.status}</Td>
+            <Td>{invoice.paymentStatus}</Td>
             <Td>
-              {invoice.status === 'unpaid' && (
+              {invoice.paymentStatus === 'unpaid' && (
                 <button onClick={() => handlePayClick(invoice.id)}>Pay</button>
               )}
             </Td>

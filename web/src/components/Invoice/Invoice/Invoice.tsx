@@ -80,6 +80,7 @@ const Invoice = ({ invoice }: Props) => {
               <th>Description</th>
               <td>{invoice.description}</td>
             </tr>
+
             <tr>
               <th>Created at</th>
               <td>{timeTag(invoice.createdAt)}</td>
