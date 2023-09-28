@@ -12,7 +12,7 @@ CREATE TABLE "Invoice" (
     "lateFee" INTEGER,
     "description" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "paymentStatus" "PaymentStatus" NOT NULL,
+    "status" "PaymentStatus" NOT NULL,
 
     CONSTRAINT "Invoice_pkey" PRIMARY KEY ("id")
 );

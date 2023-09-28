@@ -1,3 +1,12 @@
+import { gql } from 'graphql-tag'
+
+// Add or update this section
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+enum PaymentStatus {
+  Paid,
+  Unpaid,
+}
+
 export const schema = gql`
   type Invoice {
     id: Int!
@@ -8,6 +17,7 @@ export const schema = gql`
     currency: String!
     lateFee: Int
     description: String
+    status: PaymentStatus # PaymentStatus is used as the type for the status field
     createdAt: DateTime!
   }
 
@@ -24,6 +34,7 @@ export const schema = gql`
     currency: String!
     lateFee: Int
     description: String
+    status: PaymentStatus
   }
 
   input UpdateInvoiceInput {
@@ -34,6 +45,7 @@ export const schema = gql`
     currency: String
     lateFee: Int
     description: String
+    status: PaymentStatus
   }
 
   type Mutation {

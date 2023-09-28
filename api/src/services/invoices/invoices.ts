@@ -12,15 +12,30 @@ export const invoice: QueryResolvers['invoice'] = ({ id }) => {
   })
 }
 
-export const createInvoice: MutationResolvers['createInvoice'] = ({
+export const createInvoice: MutationResolvers['createInvoice'] = async ({
   input,
 }) => {
-  return db.invoice.create({
-    data: {
-      ...input, // Spread the input data
-      paymentStatus: 'Unpaid', // Set the payment status to "unpaid"
-    },
-  })
+  try {
+    // Log input data to see what's being received
+    console.log('Received input:', input)
+
+    // Create the invoice with the status set to 'Unpaid'
+    const result = await db.invoice.create({
+      data: {
+        ...input,
+        status: 'Unpaid', // Set the payment status to "unpaid"
+      },
+    })
+
+    // Log the result or other relevant data
+    console.log('Created invoice:', result)
+
+    return result
+  } catch (error) {
+    // Log any errors that occur
+    console.error('Error creating invoice:', error)
+    throw error
+  }
 }
 
 export const updateInvoice: MutationResolvers['updateInvoice'] = ({
@@ -28,8 +43,10 @@ export const updateInvoice: MutationResolvers['updateInvoice'] = ({
   input,
 }) => {
   return db.invoice.update({
-    data: input,
-
+    data: {
+      ...input,
+      status: 'Paid', // Set the payment status to a valid value
+    },
     where: { id },
   })
 }
