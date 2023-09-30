@@ -9,8 +9,7 @@ enum PaymentStatus {
 
 export const schema = gql`
   type Invoice {
-    id: Int!
-    amount: Int!
+    id: Int! #
     dueDate: DateTime!
     payerEmail: String
     payerPhone: String!
