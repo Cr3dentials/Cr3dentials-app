@@ -12,7 +12,7 @@ export const QUERY = gql`
       description
       amount
       lateFee
-      paymentStatus
+      status
     }
   }
 `
@@ -30,11 +30,11 @@ export type Invoice = {
   description: string | null
   amount: number
   lateFee: number | null
-  paymentStatus: PaymentStatus
+  status: PaymentStatus
 }
 
 export enum PaymentStatus {
-  PAID = 'PAID',
-  UNPAID = 'UNPAID',
-  LATE = 'LATE',
+  Paid = 'Paid',
+  Unpaid = 'Unpaid',
+  Late = 'Late',
 }

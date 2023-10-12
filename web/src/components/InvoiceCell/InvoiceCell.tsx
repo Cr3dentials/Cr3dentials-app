@@ -14,7 +14,7 @@ const QUERY = gql`
       currency
       lateFee
       description
-      paymentStatus
+      status
     }
   }
 `
@@ -49,7 +49,7 @@ const InvoiceCell = () => {
           <p>Currency: {invoice.currency}</p>
           <p>Late Fee: {invoice.lateFee}</p>
           <p>Description: {invoice.description}</p>
-          <p>Status: {invoice.paymentStatus}</p>
+          <p>Status: {invoice.status}</p>
           <hr />
         </div>
       ))}

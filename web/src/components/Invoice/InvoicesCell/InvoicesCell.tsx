@@ -17,7 +17,7 @@ export const QUERY = gql`
       lateFee
       description
       createdAt
-      paymentStatus
+      status
     }
   }
 `

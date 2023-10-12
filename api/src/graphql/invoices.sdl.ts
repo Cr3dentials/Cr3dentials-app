@@ -1,23 +1,22 @@
 import { gql } from 'graphql-tag'
 
-// Add or update this section
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-enum PaymentStatus {
-  Paid,
-  Unpaid,
-}
-
 export const schema = gql`
+  enum PaymentStatus {
+    Paid
+    Unpaid
+  }
+
   type Invoice {
-    id: Int! #
+    id: Int!
     dueDate: DateTime!
     payerEmail: String
     payerPhone: String!
     currency: String!
     lateFee: Int
     description: String
-    status: PaymentStatus # PaymentStatus is used as the type for the status field
+    status: PaymentStatus
     createdAt: DateTime!
+    amount: Int!
   }
 
   type Query {
