@@ -19,14 +19,9 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={ScaffoldLayout} title="Invoices" titleTo="invoices" buttonLabel="New Invoice" buttonTo="newInvoice">
-        <Route path="/invoices/new" page={InvoiceNewInvoicePage} name="newInvoice" />
-        <Route path="/invoices/{id:Int}/edit" page={InvoiceEditInvoicePage} name="editInvoice" />
-        <Route path="/invoices/{id:Int}" page={InvoiceInvoicePage} name="invoice" />
-        <Route path="/invoices" page={InvoiceInvoicesPage} name="invoices" />
-      </Set>
-      <Route path="/create-invoice" page={CreateInvoicePage} name="createInvoice" />
       <Set wrap={MainLayout}>
+        <Route path="/create-invoice" page={CreateInvoicePage} name="createInvoice" />
+
         <Set wrap={ScaffoldLayout} title="Invoices" titleTo="invoices" buttonLabel="New Invoice" buttonTo="newInvoice">
           <Route path="/invoices/new" page={InvoiceNewInvoicePage} name="newInvoice" />
           <Route path="/invoices/{id:Int}/edit" page={InvoiceEditInvoicePage} name="editInvoice" />

@@ -13,9 +13,9 @@ const App = () => (
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <RedwoodApolloProvider>
         {/* Wrap your app in ChakraProvider */}
-        <ChakraProvider>
-          <Routes />
-        </ChakraProvider>
+        {/* <ChakraProvider> */}
+        <Routes />
+        {/* </ChakraProvider> */}
         {/* End ChakraProvider */}
       </RedwoodApolloProvider>
     </RedwoodProvider>
