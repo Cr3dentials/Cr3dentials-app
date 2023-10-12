@@ -13,7 +13,6 @@ import MainLayout from 'src/layouts/MainLayout'
 import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
 
 import HomePage from './pages/HomePage/HomePage'
-import InvoicesPage from './pages/InvoicesPage/InvoicesPage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 
 const Routes = () => {
