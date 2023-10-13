@@ -29,6 +29,7 @@ interface InvoiceFormProps {
 
 const InvoiceForm = (props: InvoiceFormProps) => {
   const onSubmit = (data: FormInvoice) => {
+    console.log('Form data:', data)
     props.onSave(data, props?.invoice?.id)
   }
 

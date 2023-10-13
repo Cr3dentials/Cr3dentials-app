@@ -4,6 +4,8 @@ export const schema = gql`
   enum PaymentStatus {
     Paid
     Unpaid
+    Active
+    Unsigned
   }
 
   type Invoice {

@@ -1,4 +1,4 @@
-import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+/*import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 
 const invoices = [
   { id: 1, dueDate: '2023-09-30', paymentStatus: 'unpaid' },
@@ -19,7 +19,7 @@ const InvoiceList = () => {
           <Th>ID</Th>
           <Th>Due Date</Th>
           <Th>Status</Th>
-          <Th>Pay</Th> {/* Empty column for Pay button */}
+          <Th>Pay</Th> {/* Empty column for Pay button }
         </Tr>
       </Thead>
       <Tbody>
@@ -27,9 +27,9 @@ const InvoiceList = () => {
           <Tr key={invoice.id}>
             <Td>{invoice.id}</Td>
             <Td>{invoice.dueDate}</Td>
-            <Td>{invoice.paymentStatus}</Td>
+            <Td>{invoice.status}</Td>
             <Td>
-              {invoice.paymentStatus === 'unpaid' && (
+              {invoice.status === 'unpaid' && (
                 <button onClick={() => handlePayClick(invoice.id)}>Pay</button>
               )}
             </Td>
@@ -40,4 +40,4 @@ const InvoiceList = () => {
   )
 }
 
-export default InvoiceList
+export default InvoiceList */

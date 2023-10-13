@@ -68,7 +68,7 @@ const InvoicesList = ({ invoices }: FindInvoices) => {
               <td>{truncate(invoice.currency)}</td>
               <td>{truncate(invoice.lateFee)}</td>
               <td>{truncate(invoice.description)}</td>
-              <td>{truncate(invoice.paymentStatus)}</td>
+              <td>{truncate(invoice.status)}</td>
               <td>{timeTag(invoice.createdAt)}</td>
               <td>
                 <nav className="rw-table-actions">

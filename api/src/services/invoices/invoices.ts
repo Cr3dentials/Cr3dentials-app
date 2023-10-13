@@ -23,7 +23,7 @@ export const createInvoice: MutationResolvers['createInvoice'] = async ({
     const result = await db.invoice.create({
       data: {
         ...input,
-        status: 'Unpaid', // Set the payment status to "unpaid"
+        status: 'Unsigned', // Set the payment status to "unpaid"
       },
     })
 
@@ -45,7 +45,7 @@ export const updateInvoice: MutationResolvers['updateInvoice'] = ({
   return db.invoice.update({
     data: {
       ...input,
-      status: 'Paid', // Set the payment status to a valid value
+      status: 'Active', // Set the payment status to a valid value
     },
     where: { id },
   })
