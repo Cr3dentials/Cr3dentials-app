@@ -18,6 +18,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/payer" page={PayerPage} name="payer" />
       <Set wrap={MainLayout}>
         <Route path="/create-invoice" page={CreateInvoicePage} name="createInvoice" />
 

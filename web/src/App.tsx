@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react' // Import ChakraProvider from Chakra UI
+//import { ChakraProvider } from '@chakra-ui/react' // Import ChakraProvider from Chakra UI
 
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'

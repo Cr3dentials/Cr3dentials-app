@@ -5581,6 +5581,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/engines@npm:5.4.2":
+  version: 5.4.2
+  resolution: "@prisma/engines@npm:5.4.2"
+  checksum: fa11b28ba53091b03c24d7353c293eff50e71b1e60494880701c5b259d9f874a5543e00a2172adf0cd618e9559b0eb6a38fe4a39aeda2740ae23a9545ab1ad9f
+  languageName: node
+  linkType: hard
+
 "@prisma/fetch-engine@npm:5.3.1":
   version: 5.3.1
   resolution: "@prisma/fetch-engine@npm:5.3.1"
@@ -19769,7 +19776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:5.3.1, prisma@npm:^5.3.1":
+"prisma@npm:5.3.1":
   version: 5.3.1
   resolution: "prisma@npm:5.3.1"
   dependencies:
@@ -19777,6 +19784,17 @@ __metadata:
   bin:
     prisma: build/index.js
   checksum: c3058af3e3e2f9771fe40602a33ccb29055c45f9cbdea6e81df584720f23cfb75c829042cdf57e7fa0fc226ba1a69ba524c8b10d54de2304201e3ea4e6f69564
+  languageName: node
+  linkType: hard
+
+"prisma@npm:^5.4.0":
+  version: 5.4.2
+  resolution: "prisma@npm:5.4.2"
+  dependencies:
+    "@prisma/engines": 5.4.2
+  bin:
+    prisma: build/index.js
+  checksum: 5b115f1a9dcc44d6584be29a156e31355443a8b25c529097073adf68cf46cdf294ec69d1cbbefacf7523e5047429952745bf7d845c47e3df5571cde9c19ff170
   languageName: node
   linkType: hard
 
@@ -20955,7 +20973,7 @@ __metadata:
     "@redwoodjs/core": 6.3.2
     axios: ^1.5.0
     graphql-tag: ^2.12.6
-    prisma: ^5.3.1
+    prisma: ^5.4.0
     redwood: ^0.0.1
   languageName: unknown
   linkType: soft
