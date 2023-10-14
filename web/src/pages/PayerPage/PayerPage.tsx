@@ -7,6 +7,7 @@ import PayerCell, {
   QUERY as FindPayerQuery,
 } from 'src/components/PayerCell/PayerCell'
 
+
 const PayerPage = () => {
   // Fetch the payer data using useQuery
   const { data, error, loading } = useQuery(FindPayerQuery, {
@@ -31,8 +32,11 @@ const PayerPage = () => {
         My default route is named <code>payer</code>, link to me with `
         <Link to={routes.payer()}>Payer</Link>`
       </p>
-      <PayerCell payer={data.payer} />{' '}
-      {/* Pass the payer object to the PayerCell */}
+      {data.payer ? (
+        <PayerCell payer={data.payer} /> // Pass the payer object to the PayerCell
+      ) : (
+        <div>No payer found.</div>
+      )}
     </>
   )
 }

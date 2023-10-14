@@ -24,6 +24,14 @@ export const schema = gql`
   type Query {
     invoices: [Invoice!]! @requireAuth
     invoice(id: Int!): Invoice @requireAuth
+    payer(id: Int!): Payer @requireAuth
+  }
+
+  type Payer {
+    id: Int!
+    email: String!
+    phone: String!
+    invoices: [Invoice!]!
   }
 
   input CreateInvoiceInput {

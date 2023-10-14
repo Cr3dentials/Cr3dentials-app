@@ -1,8 +1,6 @@
 import { useState } from 'react'
-
 import { gql, useMutation } from '@apollo/client'
 import type { FindPayerQuery, FindPayerQueryVariables } from 'types/graphql'
-
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 const SIGN_INVOICE_MUTATION = gql`
@@ -38,7 +36,7 @@ export const Failure = ({
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
 
-const PayerCell = ({
+export const PayerCell = ({
   payer,
 }: CellSuccessProps<FindPayerQuery, FindPayerQueryVariables>) => {
   const [signInvoice] = useMutation(SIGN_INVOICE_MUTATION)
@@ -60,6 +58,11 @@ const PayerCell = ({
     }
   }
 
+  const handleEditInvoice = (invoiceId: number) => {
+    // Add your logic for editing the invoice here
+    console.log(`Editing invoice with ID: ${invoiceId}`)
+  }
+
   return (
     <>
       {/* Render the fetched invoices */}
@@ -70,12 +73,14 @@ const PayerCell = ({
           <p>Due: {invoice.dueDate}</p>
           <p>Status: {invoice.status}</p>
           {invoice.status === 'Unsigned' && (
-            <button onClick={() => handleSignInvoice(invoice.id)}>Sign</button>
+            <>
+              <button onClick={() => handleSignInvoice(invoice.id)}>Sign</button>
+              <button onClick={() => handleSignInvoice(invoice.id)}>Sign</button>
+              <button onClick={() => handleEditInvoice(invoice.id)}>Edit</button>
+            </>
           )}
         </div>
       ))}
     </>
   )
 }
-
-export default PayerCell
