@@ -7,7 +7,6 @@ import PayerCell, {
   QUERY as FindPayerQuery,
 } from 'src/components/PayerCell/PayerCell'
 
-
 const PayerPage = () => {
   // Fetch the payer data using useQuery
   const { data, error, loading } = useQuery(FindPayerQuery, {

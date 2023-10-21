@@ -1,6 +1,8 @@
 import { useState } from 'react'
+
 import { gql, useMutation } from '@apollo/client'
 import type { FindPayerQuery, FindPayerQueryVariables } from 'types/graphql'
+
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 const SIGN_INVOICE_MUTATION = gql`
@@ -36,7 +38,7 @@ export const Failure = ({
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
 
-export const PayerCell = ({
+const PayerCell = ({
   payer,
 }: CellSuccessProps<FindPayerQuery, FindPayerQueryVariables>) => {
   const [signInvoice] = useMutation(SIGN_INVOICE_MUTATION)
@@ -74,9 +76,15 @@ export const PayerCell = ({
           <p>Status: {invoice.status}</p>
           {invoice.status === 'Unsigned' && (
             <>
-              <button onClick={() => handleSignInvoice(invoice.id)}>Sign</button>
-              <button onClick={() => handleSignInvoice(invoice.id)}>Sign</button>
-              <button onClick={() => handleEditInvoice(invoice.id)}>Edit</button>
+              <button onClick={() => handleSignInvoice(invoice.id)}>
+                Sign
+              </button>
+              <button onClick={() => handleSignInvoice(invoice.id)}>
+                Sign
+              </button>
+              <button onClick={() => handleEditInvoice(invoice.id)}>
+                Edit
+              </button>
             </>
           )}
         </div>
@@ -84,3 +92,4 @@ export const PayerCell = ({
     </>
   )
 }
+export default PayerCell

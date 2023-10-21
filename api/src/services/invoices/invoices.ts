@@ -19,11 +19,10 @@ export const createInvoice: MutationResolvers['createInvoice'] = async ({
     // Log input data to see what's being received
     console.log('Received input:', input)
 
-    // Create the invoice with the status set to 'Unpaid'
     const result = await db.invoice.create({
       data: {
         ...input,
-        status: 'Unsigned', // Set the payment status to "unpaid"
+        status: 'Unsigned',
       },
     })
 
