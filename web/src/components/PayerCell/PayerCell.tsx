@@ -16,17 +16,28 @@ const SIGN_INVOICE_MUTATION = gql`
 
 export const QUERY = gql`
   query FindPayerQuery($id: Int!) {
-    payer(id: $id) {
+    payer: invoice(id: $id) {
       id
-      invoices {
-        id
-        amount
-        dueDate
-        status
-      }
-    }
+      amount
+      dueDate
+      status
   }
+}
 `
+
+// export const QUERY = gql`
+//   query FindPayerQuery($id: Int!) {
+//     payer(id: $id) {
+//       id
+//       invoices {
+//         id
+//         amount
+//         dueDate
+//         status
+//       }
+//     }
+//   }
+// `
 
 export const Loading = () => <div>Loading...</div>
 
@@ -37,6 +48,10 @@ export const Failure = ({
 }: CellFailureProps<FindPayerQueryVariables>) => (
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
+
+export const Success = ({ payer }: CellSuccessProps<FindPayerQuery, FindPayerQueryVariables>) => {
+  return <div>{JSON.stringify(payer)}</div>
+}
 
 const PayerCell = ({
   payer,
@@ -92,4 +107,4 @@ const PayerCell = ({
     </>
   )
 }
-export default PayerCell
+// export default PayerCell
