@@ -19,6 +19,14 @@ Then start the development server:
 yarn redwood dev
 ```
 
+Then start the localpostgres database:
+- Follow the instructions here to create the db https://redwoodjs.com/docs/local-postgres-setup
+- use the `.env.example` file to to create your local .env file and ensure that the username for your database url is the same as ${whoami}
+- migrate the db by running 
+```
+yarn rw prisma migrate dev
+```
+
 Your browser should automatically open to [http://localhost:8910](http://localhost:8910) where you'll see the Welcome Page, which links out to many great resources.
 
 > **The Redwood CLI**
