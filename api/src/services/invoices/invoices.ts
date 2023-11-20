@@ -55,3 +55,17 @@ export const deleteInvoice: MutationResolvers['deleteInvoice'] = ({ id }) => {
     where: { id },
   })
 }
+
+export const signInvoice: MutationResolvers['signInvoice'] = async ({ id }) => {
+  const invoice = await db.invoice.findUnique({ where: { id: Number(id) } })
+  if (!invoice) {
+    throw new Error('Invoice not found')
+  }
+
+  const updatedInvoice = await db.invoice.update({
+    where: { id: Number(id) },
+    data: { status: 'Active' },
+  })
+
+  return updatedInvoice
+}

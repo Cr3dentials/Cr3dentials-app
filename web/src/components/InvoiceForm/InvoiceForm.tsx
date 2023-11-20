@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { gql, useMutation } from '@apollo/client'
 import {
   Container,
   Flex,
@@ -12,11 +13,15 @@ import {
   Heading,
 } from '@chakra-ui/react'
 
-import { useMutation } from '@redwoodjs/web'
+export const CREATE_INVOICE_MUTATION = gql`
+  mutation CreateInvoiceMutation($input: CreateInvoiceInput!) {
+    createInvoice(input: $input) {
+      id
+    }
+  }
+`
 
-import CREATE_INVOICE_MUTATION from 'src/services/invoices'
-
-function InvoiceForm() {
+function InvoiceForm({ onSave }) {
   const [selectedOption, setSelectedOption] = useState('Dollar')
   const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 10))
   const [payerEmail, setPayerEmail] = useState('')
@@ -47,12 +52,9 @@ function InvoiceForm() {
         variables: { input: invoiceData },
       })
 
-      console.log('Data from Mutation:',data);
-      // Optionally, you can handle the response here (e.g., show a success message).
-      // After sending the invoice, you may want to refetch the data from the InvoiceCell
-      // to update the list of invoices displayed on the page.
-      // Uncomment the following line to refetch the data:
-      // revalidate();
+      console.log('Data from Mutation:', data)
+      // Call the onSave function with the created invoice's id
+      onSave(data.createInvoice.id)
     } catch (error) {
       console.error('Error sending invoice:', error)
       // Handle the error (e.g., display an error message to the user).

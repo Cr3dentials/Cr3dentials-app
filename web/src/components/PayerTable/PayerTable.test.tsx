@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import Web3auth from './Web3auth'
+import PayerTable from './PayerTable'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('Web3auth', () => {
+describe('PayerTable', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Web3auth />)
+      render(<PayerTable />)
     }).not.toThrow()
   })
 })

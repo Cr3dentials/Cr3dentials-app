@@ -12,14 +12,14 @@
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Web3auth from './Web3auth'
+import PayerTable from './PayerTable'
 
-const meta: Meta<typeof Web3auth> = {
-  component: Web3auth,
+const meta: Meta<typeof PayerTable> = {
+  component: PayerTable,
 }
 
 export default meta
 
-type Story = StoryObj<typeof Web3auth>
+type Story = StoryObj<typeof PayerTable>
 
 export const Primary: Story = {}

@@ -60,5 +60,6 @@ export const schema = gql`
     createInvoice(input: CreateInvoiceInput!): Invoice! @requireAuth
     updateInvoice(id: Int!, input: UpdateInvoiceInput!): Invoice! @requireAuth
     deleteInvoice(id: Int!): Invoice! @requireAuth
+    signInvoice(id: Int!): Invoice! @requireAuth
   }
 `
