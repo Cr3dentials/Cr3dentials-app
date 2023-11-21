@@ -1,8 +1,10 @@
 // web/src/components/Navbar/Navbar.js
 
 import { Link, routes } from '@redwoodjs/router'
+
 // Import your Logo component (if you have one)
 import './Navbar.css'
+// import Wallet from 'src/components/Wallet'
 
 const Navbar = () => {
   return (
@@ -16,7 +18,7 @@ const Navbar = () => {
       <div className="navbar-right">
         <ul>
           <li>
-            <Link to={routes.transactions()}>Transactions</Link>
+            <Link to={routes.invoices()}>Invoices</Link>
           </li>
           <li>
             <Link to={routes.reports()}>Reports</Link>
@@ -25,8 +27,12 @@ const Navbar = () => {
             <Link to={routes.dashboard()}>Dashboard</Link>
           </li>
           <li>
-            <Link to={routes.profile()}>Profile</Link>
+            <Link to={routes.profile()}></Link>
           </li>
+          {/* <li>
+            <Wallet />
+          </li> */}
+
           {/* Add more navigation links as needed */}
         </ul>
       </div>

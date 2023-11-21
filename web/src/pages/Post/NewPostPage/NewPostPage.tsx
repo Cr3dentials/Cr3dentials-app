@@ -4,4 +4,4 @@ const NewPostPage = () => {
   return <NewPost />
 }
 
-export default NewPostPage
+export default NewPostPage;

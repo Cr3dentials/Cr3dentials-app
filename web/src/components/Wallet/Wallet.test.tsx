@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import TransactionsPage from './TransactionsPage'
+import Wallet from './Wallet'
 
 //   Improve this test with help from the Redwood Testing Doc:
-//   https://redwoodjs.com/docs/testing#testing-pages-layouts
+//    https://redwoodjs.com/docs/testing#testing-components
 
-describe('TransactionsPage', () => {
+describe('Wallet', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<TransactionsPage />)
+      render(<Wallet />)
     }).not.toThrow()
   })
 })
