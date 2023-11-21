@@ -9814,14 +9814,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "axios@npm:1.5.0"
+"axios@npm:^1.6.2":
+  version: 1.6.2
+  resolution: "axios@npm:1.6.2"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: a3e11e53ff10fa02defb17c82672599a5ef31f8a6f2b0ea1564a61271226a924baef3a899a03c6850bddb0e9a614acdf615e07b30f382403b5e1fc7ec2eef464
+  checksum: 9b77e030e85e4f9cbcba7bb52fbff67d6ce906c92d213e0bd932346a50140faf83733bf786f55bd58301bd92f9973885c7b87d6348023e10f7eaf286d0791a1d
   languageName: node
   linkType: hard
 
@@ -21231,7 +21231,7 @@ __metadata:
     "@redwoodjs/core": 6.3.2
     "@redwoodjs/graphql-server": ^6.4.0
     "@redwoodjs/web": ^6.4.0
-    axios: ^1.5.0
+    axios: ^1.6.2
     graphql-tag: ^2.12.6
     prisma: ^5.4.0
     redwood: ^0.0.1

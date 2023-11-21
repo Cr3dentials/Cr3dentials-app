@@ -11,9 +11,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-left">
         {/* <Logo /> Replace with your logo component */}
-        <Link to="/">
-          <h1>Cr3dentials</h1>
-        </Link>
+        <img src="./WhiteLogo.png" style={{maxWidth: '60px', maxHeight: '60px'}}></img>
       </div>
       <div className="navbar-right">
         <ul>
