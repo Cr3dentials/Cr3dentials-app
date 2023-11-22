@@ -1,5 +1,18 @@
 // web/src/components/Invoice/invoice.ts
 import { gql } from 'graphql-tag'
+import axios from 'axios';
+
+export const getPaymentHistory = async () => {
+  try {
+    const response = await axios.get('http://localhost:8917/api/payment-history');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Call this function when the component is loaded
+getPaymentHistory().then(data => console.log(data));
 
 export const QUERY = gql`
   query InvoiceQuery {

@@ -11,12 +11,14 @@ export const getPaymentHistory = async () => {
     headers: {
       'Content-Type': 'application/json',
       'X-Authorization': consumerKey,
-      transactionId: '',
+      transactionId: '1',
       Authorization: consumerSecret
+
     }
   };
 
   try {
+
     const response = await axios.request(options);
     return response.data;
   } catch (error) {

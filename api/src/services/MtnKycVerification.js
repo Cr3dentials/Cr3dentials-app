@@ -1,10 +1,10 @@
 import axios from "axios";
+require('dotenv').config()
 
 const consumerKey = process.env.MTN_CONSUMER_KEY;
 const consumerSecret = process.env.MTN_CONSUMER_SECRET;
 // services/mtnService.js
 
-import axios from 'axios';
 
 //get access to kyc
 export const getCustomers = async () => {
