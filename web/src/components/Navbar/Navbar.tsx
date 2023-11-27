@@ -11,8 +11,8 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-left">
         {/* <Logo /> Replace with your logo component */}
-        <Link to="/">
-          <h1>Cr3dentials</h1>
+        <Link to={routes.home()}>
+          <img src="./WhiteLogo.png" style={{maxWidth: '60px', maxHeight: '60px'}}></img>
         </Link>
       </div>
       <div className="navbar-right">
