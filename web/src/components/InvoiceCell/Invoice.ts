@@ -4,7 +4,16 @@ import axios from 'axios';
 
 export const getPaymentHistory = async () => {
   try {
-    const response = await axios.get('http://localhost:8917/api/payment-history');
+    const response = await axios.get('http://localhost:8918/api/payment-history');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createPaymentAgreement = async () => {
+  try {
+    const response = await axios.get('http://localhost:8918/api/payment-agreement');
     return response.data;
   } catch (error) {
     console.error(error);
