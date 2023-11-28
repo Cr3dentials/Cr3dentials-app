@@ -1,6 +1,4 @@
-// SPDX-License-Identifier: MIT
-
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.22;
 
 contract InvoiceContract {
     struct Invoice {
@@ -33,43 +31,38 @@ contract InvoiceContract {
     }
 
     function markAsPaid(uint _id) public {
-        Invoice storage invoice = invoices[_id];
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid");
+        Invoice storage invoice = invoices[_id];
         invoice.status = "Paid";
         creditScores[invoice.payer].paidTokens++;
     }
 
     function markAsPaidEarly(uint _id) public {
-        Invoice storage invoice = invoices[_id];
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid early");
+        Invoice storage invoice = invoices[_id];
         invoice.status = "Paid Early";
         creditScores[invoice.payer].paidEarlyTokens++;
     }
 
     function markAsLate(uint _id) public {
-       require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
+        require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
-        require(msg.sender == platformAddress, "Only the platform can mark the invoice as late");
+        require(msg.sender == invoice.payer, "Only the payer can mark the invoice as late");
         invoice.status = "Late";
         creditScores[invoice.payer].lateTokens++;
     }
 
     function markAsOverdue(uint _id) public {
-     require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
+        require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
-        require(msg.sender == platformAddress, "Only the platform can mark the invoice as unpaid");
+        require(msg.sender == invoice.payer, "Only the payer can mark the invoice as overdue");
         invoice.status = "Overdue";
         creditScores[invoice.payer].overdueTokens++;
     }
 
     function cancelInvoice(uint _id) public {
-        require(msg.sender == platformAddress, "Only the platform can cancel the invoice");
+        Invoice storage invoice = invoices[_id];
+        require(msg.sender == invoice.invoicer, "Only the invoicer can cancel the invoice");
         delete invoices[_id];
     }
-
-    // function getCreditScoreRange(address _user) public pure returns (string memory) {
-    //     // Implement your zk proof logic here to return the credit score range
-    //     // For simplicity, this function currently returns a dummy value
-    //     return "650-700";
-    // }
 }
