@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "PaymentStatus" AS ENUM ('Paid', 'Unpaid', 'Active', 'Unsigned');
+CREATE TYPE "PaymentStatus" AS ENUM ('Paid', 'Overdue', 'Active', 'Unsigned', 'PaidEarly');
 
 -- CreateTable
 CREATE TABLE "Invoice" (

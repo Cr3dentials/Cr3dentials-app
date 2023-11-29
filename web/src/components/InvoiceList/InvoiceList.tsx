@@ -1,43 +1,40 @@
-import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+
 
 const invoices = [
-  { id: 1, dueDate: '2023-09-30', paymentStatus: 'unpaid' },
-  { id: 2, dueDate: '2023-10-15', paymentStatus: 'paid' },
+
   // Add more invoice data here
 ]
 
 const InvoiceList = () => {
   const handlePayClick = (invoiceId) => {
-    // Replace this with your payment logic
     console.log(`Payment for invoice with ID ${invoiceId} clicked.`)
   }
 
   return (
-    <Table variant="striped" colorScheme="teal">
-      <Thead>
-        <Tr>
-          <Th>ID</Th>
-          <Th>Due Date</Th>
-          <Th>Status</Th>
-          <Th>Pay</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Pay</th>
+        </tr>
+      </thead>
+      <tbody>
         {invoices.map((invoice) => (
-          <Tr key={invoice.id}>
-            <Td>{invoice.id}</Td>
-            <Td>{invoice.dueDate}</Td>
-            {/* <Td>{invoice.status}</Td>
-            <Td>
-              {invoice.status === 'unpaid' && (
+          <tr key={invoice.id}>
+            <td>{invoice.id}</td>
+            <td>{invoice.dueDate}</td>
+            <td>{invoice.paymentStatus}</td>
+            <td>
+              {invoice.paymentStatus === 'unpaid' && (
                 <button onClick={() => handlePayClick(invoice.id)}>Pay</button>
               )}
-            </Td> */}
-          </Tr>
+            </td>
+          </tr>
         ))}
-      </Tbody>
-    </Table>
+      </tbody>
+    </table>
   )
 }
-
 export default InvoiceList

@@ -14,7 +14,7 @@
     # See https://redwoodjs.com/docs/environment-variables#web
   ]
 [api]
-  port = 8917
+  port = 8918
 [browser]
   open = true
   versionUpdates = ["latest"]
