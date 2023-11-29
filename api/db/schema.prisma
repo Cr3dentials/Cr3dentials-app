@@ -25,7 +25,8 @@ model Invoice {
 
 enum PaymentStatus {
   Paid
-  Unpaid
+  Overdue
   Active
   Unsigned
+  PaidEarly
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { ChakraProvider } from '@chakra-ui/react'
 import ReactDOM from 'react-dom'
 
 import { FatalErrorBoundary } from '@redwoodjs/web'
@@ -17,9 +16,9 @@ ReactDOM.render(
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodApolloProvider client={client}>
       {/* Wrap your app in ChakraProvider */}
-      <ChakraProvider>
+
         <Routes />
-      </ChakraProvider>
+
       {/* End ChakraProvider */}
     </RedwoodApolloProvider>
   </FatalErrorBoundary>,

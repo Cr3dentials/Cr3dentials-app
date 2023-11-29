@@ -1,17 +1,7 @@
 import React, { useState } from 'react'
 
 import { gql, useMutation } from '@apollo/client'
-import {
-  Container,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Select,
-  Button,
-  Heading,
-} from '@chakra-ui/react'
+
 
 export const CREATE_INVOICE_MUTATION = gql`
   mutation CreateInvoiceMutation($input: CreateInvoiceInput!) {
@@ -86,106 +76,89 @@ function InvoiceForm({ onSave }) {
   }
 
   return (
-    <Container maxW="container.lg" p="4">
-      <Heading as="h1" textAlign="center" mb="4">
-        Create an Invoice
-      </Heading>
-      <Flex flexWrap="wrap" justifyContent="space-between">
-        <FormControl flexBasis="48%">
-          <FormLabel htmlFor="input9">Currency</FormLabel>
-          <Select
-            id="input9"
-            name="token"
-            value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
-          >
-            <option value="Dollar">Dollar</option>
-            <option value="CEDI">CEDI</option>
-            <option value="Naira">Naira</option>
-          </Select>
-        </FormControl>
-        <FormControl flexBasis="48%">
-          <FormLabel htmlFor="input1">Amount</FormLabel>
-          <Input
-            value={amount}
-            onChange={handleAmountChange}
-            type="number"
-            min="1"
-            step="any"
-            id="input1"
-            placeholder="Enter Amount"
-          />
-        </FormControl>
-      </Flex>
-      <Flex flexWrap="wrap" justifyContent="space-between" mt="4">
-        <FormControl flexBasis="48%">
-          <FormLabel htmlFor="input4">Payers Email</FormLabel>
-          <Input
-            type="email"
-            id="input4"
-            value={payerEmail}
-            onChange={handlePayerEmailChange}
-            placeholder="Payers Email"
-          />
-        </FormControl>
-        <FormControl flexBasis="48%">
-          <FormLabel htmlFor="input5">Payers Phone Number</FormLabel>
-          <Input
-            type="tel"
-            id="input5"
-            value={payerPhoneNumber}
-            onChange={handlePayerPhoneNumberChange}
-            placeholder="Payers Phone Number"
-          />
-        </FormControl>
-      </Flex>
-      <Flex flexWrap="wrap" justifyContent="space-between" mt="4">
-        <FormControl flexBasis="48%">
-          <FormLabel htmlFor="input3">Due Date</FormLabel>
-          <Input
-            type="date"
-            id="input3"
-            name="dueDate"
-            value={dueDate}
-            onChange={(e) => handleDueDateChange(e.target.value)}
-          />
-        </FormControl>
-        <FormControl flexBasis="48%">
-          <FormLabel htmlFor="input7">Late Fee</FormLabel>
-          <Input
-            value={lateFee}
-            onChange={handleLateFeeChange}
-            type="number"
-            min="1"
-            step="any"
-            id="input7"
-            placeholder=""
-          />
-        </FormControl>
-      </Flex>
-      <FormControl mt="4">
-        <FormLabel htmlFor="input6">Description of Service</FormLabel>
-        <Textarea
+    <div>
+      <h1>Create an Invoice</h1>
+      <div>
+        <label htmlFor="input9">Currency</label>
+        <select
+          id="input9"
+          name="token"
+          value={selectedOption}
+          onChange={(e) => setSelectedOption(e.target.value)}
+        >
+          <option value="Dollar">Dollar</option>
+          <option value="CEDI">CEDI</option>
+          <option value="Naira">Naira</option>
+        </select>
+        <label htmlFor="input1">Amount</label>
+        <input
+          value={amount}
+          onChange={handleAmountChange}
+          type="number"
+          min="1"
+          step="any"
+          id="input1"
+          placeholder="Enter Amount"
+        />
+      </div>
+      <div>
+        <label htmlFor="input4">Payers Email</label>
+        <input
+          type="email"
+          id="input4"
+          value={payerEmail}
+          onChange={handlePayerEmailChange}
+          placeholder="Payers Email"
+        />
+        <label htmlFor="input5">Payers Phone Number</label>
+        <input
+          type="tel"
+          id="input5"
+          value={payerPhoneNumber}
+          onChange={handlePayerPhoneNumberChange}
+          placeholder="Payers Phone Number"
+        />
+      </div>
+      <div>
+        <label htmlFor="input3">Due Date</label>
+        <input
+          type="date"
+          id="input3"
+          name="dueDate"
+          value={dueDate}
+          onChange={(e) => handleDueDateChange(e.target.value)}
+        />
+        <label htmlFor="input7">Late Fee</label>
+        <input
+          value={lateFee}
+          onChange={handleLateFeeChange}
+          type="number"
+          min="1"
+          step="any"
+          id="input7"
+          placeholder=""
+        />
+      </div>
+      <div>
+        <label htmlFor="input6">Description of Service</label>
+        <textarea
           id="input6"
           value={description}
           onChange={handleDescriptionChange}
           placeholder="Enter a Description"
         />
-      </FormControl>
-      <Button
-        mt="4"
-        colorScheme="teal"
-        size="lg"
-        width="25%"
+      </div>
+      <button
         onClick={(event) => {
           event.preventDefault()
           sendInvoice()
         }}
       >
         Send
-      </Button>
-    </Container>
+      </button>
+    </div>
   )
 }
 
 export default InvoiceForm
+

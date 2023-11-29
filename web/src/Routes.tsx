@@ -31,12 +31,12 @@ const Routes = () => {
         <Route path="/dashboard" page={DashboardPage} name="dashboard" />
         <Route path="/reports" page={ReportsPage} name="reports" />
 
-        <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
+        {/* <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
           <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
           <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
           <Route path="/posts/{id:Int}" page={PostPostPage} name="post" />
           <Route path="/posts" page={PostPostsPage} name="posts" />
-        </Set>
+        </Set> */}
 
         <Route notfound page={NotFoundPage} />
       </Set>

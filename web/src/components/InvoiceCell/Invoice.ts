@@ -57,6 +57,8 @@ export type Invoice = {
 
 export enum PaymentStatus {
   Paid = 'Paid',
-  Unpaid = 'Unpaid',
+  Overdue = 'Overdue',
   Late = 'Late',
+  PaidEarly = 'PaidEarly'
+
 }

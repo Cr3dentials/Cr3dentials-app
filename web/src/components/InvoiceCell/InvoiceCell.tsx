@@ -49,7 +49,7 @@ const InvoiceCell = () => {
           <p>Currency: {invoice.currency}</p>
           <p>Late Fee: {invoice.lateFee}</p>
           <p>Description: {invoice.description}</p>
-          <p>Status: {invoice.status}</p>
+          <p>Status: {invoice.paymentStatus}</p>
           <hr />
         </div>
       ))}
