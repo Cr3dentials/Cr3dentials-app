@@ -27,6 +27,7 @@
     "@redwoodjs/realtime": "^6.4.0",
     "@redwoodjs/web": "^6.4.0",
     "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
     "graphql-tag": "^2.12.6",
     "redwood": "^0.0.1"
   }

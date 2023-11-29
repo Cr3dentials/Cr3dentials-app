@@ -12775,7 +12775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.0":
+"dotenv@npm:^16.0.0, dotenv@npm:^16.3.1":
   version: 16.3.1
   resolution: "dotenv@npm:16.3.1"
   checksum: b95ff1bbe624ead85a3cd70dbd827e8e06d5f05f716f2d0cbc476532d54c7c9469c3bc4dd93ea519f6ad711cb522c00ac9a62b6eb340d5affae8008facc3fbd7
@@ -21403,6 +21403,7 @@ __metadata:
     "@redwoodjs/realtime": ^6.4.0
     "@redwoodjs/web": ^6.4.0
     axios: ^1.6.2
+    dotenv: ^16.3.1
     graphql-tag: ^2.12.6
     prisma: ^5.4.0
     redwood: ^0.0.1

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 import { gql, useMutation, useQuery } from '@apollo/client'
-import axios from 'axios'
 
 import Modal from 'src/components/Modal'
 
@@ -26,6 +25,14 @@ const DELETE_INVOICE_MUTATION = gql`
   mutation DeleteInvoice($id: Int!) {
     deleteInvoice(id: $id) {
       id
+    }
+  }
+`
+
+const REQUEST_TO_PAY_MUTATION = gql`
+  mutation RequestToPayMutation($input: RequestToPayInput!) {
+    requestToPay(input: $input) {
+      transactionStatus
     }
   }
 `
@@ -55,6 +62,7 @@ const PayerTable = () => {
       })
     },
   })
+  const [requestToPay] = useMutation(REQUEST_TO_PAY_MUTATION)
   const [updateInvoice] = useMutation(UPDATE_INVOICE_MUTATION)
   const [selectedInvoice, setSelectedInvoice] = useState(null)
   const [modalType, setModalType] = useState(null)
@@ -105,23 +113,16 @@ const PayerTable = () => {
     return <div>Error loading invoices</div>
   }
 
-  const handlePay = async (invoice) => {
-    try {
-      const response = await axios.post('http://localhost:8917/pay', invoice)
-      const data = response.data
-
-      if (response.status === 200) {
-        console.log('Payment successful:', data)
-        // Update the invoice status in your state and/or database here
-      } else {
-        console.error('Payment failed:', data)
-        // Handle the error here
-      }
-    } catch (error) {
-      console.error('An error occurred while making the payment:', error)
-      // Handle the error here
+  const handlePay = (invoice) => {
+    const input = {
+      id: invoice.id,
+      amount: invoice.amount,
     }
+
+    requestToPay({ variables: { input } })
   }
+
+
 
   return (
     <div>
@@ -144,8 +145,7 @@ const PayerTable = () => {
               <td>{invoice.status}</td>
               <td>
                 {invoice.status === 'Active' ? (
-                  <button onClick={() => handlePay(invoice)}>Pay</button>
-                ) : (
+                  <button onClick={() => handlePay(invoice)}>Pay</button>               ) : (
                   <>
                     <button onClick={() => handleSign(invoice)}>Sign</button>
                     <button onClick={() => handleReject(invoice)}>
