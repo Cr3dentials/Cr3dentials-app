@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { gql, useMutation, useQuery } from '@apollo/client'
+import axios from 'axios'
 
 import Modal from 'src/components/Modal'
 
@@ -104,6 +105,24 @@ const PayerTable = () => {
     return <div>Error loading invoices</div>
   }
 
+  const handlePay = async (invoice) => {
+    try {
+      const response = await axios.post('http://localhost:8917/pay', invoice)
+      const data = response.data
+
+      if (response.status === 200) {
+        console.log('Payment successful:', data)
+        // Update the invoice status in your state and/or database here
+      } else {
+        console.error('Payment failed:', data)
+        // Handle the error here
+      }
+    } catch (error) {
+      console.error('An error occurred while making the payment:', error)
+      // Handle the error here
+    }
+  }
+
   return (
     <div>
       <table>
@@ -125,7 +144,7 @@ const PayerTable = () => {
               <td>{invoice.status}</td>
               <td>
                 {invoice.status === 'Active' ? (
-                  <button>Pay</button>
+                  <button onClick={() => handlePay(invoice)}>Pay</button>
                 ) : (
                   <>
                     <button onClick={() => handleSign(invoice)}>Sign</button>

@@ -24,6 +24,7 @@
   "packageManager": "yarn@3.6.3",
   "dependencies": {
     "@redwoodjs/graphql-server": "^6.4.0",
+    "@redwoodjs/realtime": "^6.4.0",
     "@redwoodjs/web": "^6.4.0",
     "axios": "^1.6.2",
     "graphql-tag": "^2.12.6",

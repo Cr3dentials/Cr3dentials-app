@@ -1,18 +1,48 @@
 // web/src/components/Invoice/invoice.ts
+import axios from 'axios'
 import { gql } from 'graphql-tag'
-import axios from 'axios';
 
 export const getPaymentHistory = async () => {
   try {
-    const response = await axios.get('http://localhost:8917/api/payment-history');
-    return response.data;
+    const response = await axios.get(
+      'http://localhost:8917/api/payment-history'
+    )
+    return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
+
+export const postLoanAdvance = async (
+  customerId,
+  bundleName,
+  bundleValue,
+  amount,
+  bundleType
+) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8917/api/developers.mtn.com/customers/${customerId}/loans/advance`,
+      {
+        bundleName,
+        bundleValue,
+        amount,
+        bundleType,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 // Call this function when the component is loaded
-getPaymentHistory().then(data => console.log(data));
+getPaymentHistory().then((data) => console.log(data))
 
 export const QUERY = gql`
   query InvoiceQuery {

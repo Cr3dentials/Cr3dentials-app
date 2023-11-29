@@ -1,10 +1,9 @@
-import axios from "axios";
+import axios from 'axios'
 require('dotenv').config()
 
-const consumerKey = process.env.MTN_CONSUMER_KEY;
-const consumerSecret = process.env.MTN_CONSUMER_SECRET;
+const consumerKey = process.env.MTN_CONSUMER_KEY
+const consumerSecret = process.env.MTN_CONSUMER_SECRET
 // services/mtnService.js
-
 
 //get access to kyc
 export const getCustomers = async () => {
@@ -17,15 +16,15 @@ export const getCustomers = async () => {
       Authorization: consumerSecret,
       transactionId: '',
       targetSystem: '',
-      bvns: ''
-    }
-  };
+      bvns: '',
+    },
+  }
 
   try {
-    const response = await axios.request(options);
-    return response.data;
+    const response = await axios.request(options)
+    return response.data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
+}
