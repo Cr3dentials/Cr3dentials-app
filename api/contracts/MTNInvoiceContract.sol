@@ -48,7 +48,7 @@ contract InvoiceContract {
         require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
         require(msg.sender == invoice.payer, "Only the payer can mark the invoice as late");
-        invoice.status = "Late";
+        require(invoice.status == "Late");
         creditScores[invoice.payer].lateTokens++;
     }
 
@@ -56,7 +56,7 @@ contract InvoiceContract {
         require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
         require(msg.sender == invoice.payer, "Only the payer can mark the invoice as overdue");
-        invoice.status = "Overdue";
+        require(invoice.status == "Overdue");
         creditScores[invoice.payer].overdueTokens++;
     }
 

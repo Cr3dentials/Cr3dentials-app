@@ -1,44 +1,50 @@
 import fetch from 'node-fetch'
 require('dotenv').config()
 
-const bearerToken = process.env.BEARER_TOKEN;
-const subscriptionKey = process.env.SUBSCRIPTION_KEY;
-
+const bearerToken = process.env.BEARER_TOKEN
+const subscriptionKey = process.env.SUBSCRIPTION_KEY
 
 export const requestToPay = async (invoice) => {
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      Authorization: bearerToken,
-      'X-Reference-Id': 'YOUR_REFERENCE_ID',
-      'X-Target-Environment': 'sandbox',
-      'Content-Type': 'application/json',
-      'Ocp-Apim-Subscription-Key': subscriptionKey,
-    },
-    body: JSON.stringify({
-      amount: invoice.amount,
-      currency: 'EUR',
-      externalId: invoice.id,
-      payer: {
-        partyIdType: 'MSISDN',
-        partyId: '46733123453',
+  try {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: bearerToken,
+        'X-Reference-Id': '2491cfb7-b29c-4342-beb5-d4184dca2d75',
+        'X-Target-Environment': 'sandbox',
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': subscriptionKey,
       },
-      payerMessage: 'Payment for invoice ' + invoice.id,
-      payeeNote: 'Payment for invoice ' + invoice.id,
-    }),
+      body: JSON.stringify({
+        amount: String(invoice.amount), // convert amount to string
+        currency: 'EUR',
+        externalId: String(invoice.id), // convert id to string
+        payer: {
+          partyIdType: 'MSISDN',
+          partyId: '46733123453',
+        },
+        payerMessage: 'Payment for invoice ',
+        payeeNote: 'Payment for invoice ',
+      }),
+    }
+
+    const response = await fetch(
+      'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
+      requestOptions
+    )
+    console.log('Raw response:', response)
+    const data = await response.json()
+
+    return data
+  } catch (error) {
+    console.error('Error during fetch:', error)
+    return {
+      status: 'error',
+      message: 'An error occurred during the fetch request.',
+      transactionStatus: 'failed',
+    }
   }
-
-  const response = await fetch(
-    'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
-    requestOptions
-  )
-  const data = await response.json()
-
-  return data
 }
-
-
-
 // import axios from 'axios'
 
 // const consumerKey = process.env.MTN_CONSUMER_KEY

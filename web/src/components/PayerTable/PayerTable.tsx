@@ -30,8 +30,8 @@ const DELETE_INVOICE_MUTATION = gql`
 `
 
 const REQUEST_TO_PAY_MUTATION = gql`
-  mutation RequestToPayMutation($input: RequestToPayInput!) {
-    requestToPay(input: $input) {
+  mutation RequestToPayMutation {
+    requestToPay {
       transactionStatus
     }
   }
@@ -114,15 +114,9 @@ const PayerTable = () => {
   }
 
   const handlePay = (invoice) => {
-    const input = {
-      id: invoice.id,
-      amount: invoice.amount,
-    }
-
-    requestToPay({ variables: { input } })
+    console.log(invoice)
+    requestToPay(invoice)
   }
-
-
 
   return (
     <div>
@@ -145,7 +139,8 @@ const PayerTable = () => {
               <td>{invoice.status}</td>
               <td>
                 {invoice.status === 'Active' ? (
-                  <button onClick={() => handlePay(invoice)}>Pay</button>               ) : (
+                  <button onClick={() => handlePay(invoice)}>Pay</button>
+                ) : (
                   <>
                     <button onClick={() => handleSign(invoice)}>Sign</button>
                     <button onClick={() => handleReject(invoice)}>
