@@ -9,7 +9,7 @@ export const schema = gql`
   }
 
   type Invoice {
-    id: Int!
+    id: String!
     dueDate: DateTime!
     payerEmail: String
     payerPhone: String!
@@ -18,24 +18,24 @@ export const schema = gql`
     description: String
     status: PaymentStatus
     createdAt: DateTime!
-    amount: Int!
+    amount: String!
   }
 
   type Query {
     invoices: [Invoice!]! @requireAuth
-    invoice(id: Int!): Invoice @requireAuth
-    payer(id: Int!): Payer @requireAuth
+    invoice(id: String!): Invoice @requireAuth
+    payer(id: String!): Payer @requireAuth
   }
 
   type Payer {
-    id: Int!
+    id: String!
     email: String!
     phone: String!
     invoices: [Invoice!]!
   }
 
   input CreateInvoiceInput {
-    amount: Int!
+    amount: String!
     dueDate: DateTime!
     payerEmail: String
     payerPhone: String!
@@ -46,7 +46,7 @@ export const schema = gql`
   }
 
   input UpdateInvoiceInput {
-    amount: Int
+    amount: String!
     dueDate: DateTime
     payerEmail: String
     payerPhone: String
@@ -58,8 +58,9 @@ export const schema = gql`
 
   type Mutation {
     createInvoice(input: CreateInvoiceInput!): Invoice! @requireAuth
-    updateInvoice(id: Int!, input: UpdateInvoiceInput!): Invoice! @requireAuth
-    deleteInvoice(id: Int!): Invoice! @requireAuth
-    signInvoice(id: Int!): Invoice! @requireAuth
+    updateInvoice(id: String!, input: UpdateInvoiceInput!): Invoice!
+      @requireAuth
+    deleteInvoice(id: String!): Invoice! @requireAuth
+    signInvoice(id: String!): Invoice! @requireAuth
   }
 `

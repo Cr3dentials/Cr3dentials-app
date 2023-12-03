@@ -76,13 +76,13 @@ export type InvoiceQuery = {
 }
 
 export type Invoice = {
-  id: number
+  id: string
   currency: string // Updated field name
   dueDate: string
   payerEmail: string
   payerPhone: string | null // Updated field name
   description: string | null
-  amount: number
+  amount: string
   lateFee: number | null
   status: PaymentStatus
 }

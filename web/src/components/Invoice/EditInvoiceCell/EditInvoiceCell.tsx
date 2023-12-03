@@ -8,7 +8,7 @@ import { toast } from '@redwoodjs/web/toast'
 import InvoiceForm from 'src/components/Invoice/InvoiceForm'
 
 export const QUERY = gql`
-  query EditInvoiceById($id: Int!) {
+  query EditInvoiceById($id: String!) {
     invoice: invoice(id: $id) {
       id
       amount
@@ -24,7 +24,7 @@ export const QUERY = gql`
   }
 `
 const UPDATE_INVOICE_MUTATION = gql`
-  mutation UpdateInvoiceMutation($id: Int!, $input: UpdateInvoiceInput!) {
+  mutation UpdateInvoiceMutation($id: String!, $input: UpdateInvoiceInput!) {
     updateInvoice(id: $id, input: $input) {
       id
       amount

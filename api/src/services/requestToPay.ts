@@ -3,22 +3,23 @@ require('dotenv').config()
 
 const bearerToken = process.env.BEARER_TOKEN
 const subscriptionKey = process.env.SUBSCRIPTION_KEY
+console.log('Subscription Key:', subscriptionKey)
 
 export const requestToPay = async (invoice) => {
   try {
     const requestOptions = {
       method: 'POST',
       headers: {
-        Authorization: bearerToken,
-        'X-Reference-Id': '2491cfb7-b29c-4342-beb5-d4184dca2d75',
+        Authorization: 'Bearer ' + bearerToken,
+        'X-Reference-Id': '7f993ee9-b64d-47b3-8350-e5b6c5bd7d7a',
         'X-Target-Environment': 'sandbox',
         'Content-Type': 'application/json',
         'Ocp-Apim-Subscription-Key': subscriptionKey,
       },
       body: JSON.stringify({
-        amount: String(invoice.amount), // convert amount to string
+        amount: String(invoice.amount),
         currency: 'EUR',
-        externalId: String(invoice.id), // convert id to string
+        externalId: String(invoice.id),
         payer: {
           partyIdType: 'MSISDN',
           partyId: '46733123453',
@@ -32,10 +33,27 @@ export const requestToPay = async (invoice) => {
       'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
       requestOptions
     )
-    console.log('Raw response:', response)
-    const data = await response.json()
-
-    return data
+    console.log('HTTP Status:', response.status)
+    console.log('Request headers:', requestOptions.headers)
+    console.log('Request body:', requestOptions.body)
+    if (response.status >= 200 && response.status < 300) {
+      const data = await response.json()
+      return data
+    } else {
+      const errorBodyText = await response.text()
+      let errorBody
+      try {
+        errorBody = JSON.parse(errorBodyText) // try to parse body as JSON
+      } catch (e) {
+        errorBody = errorBodyText // if that fails, use text directly
+      }
+      console.error(
+        `HTTP Error: ${response.status}, Body: ${JSON.stringify(errorBody)}`
+      )
+      throw new Error(
+        `HTTP Error: ${response.status}, Body: ${JSON.stringify(errorBody)}`
+      )
+    }
   } catch (error) {
     console.error('Error during fetch:', error)
     return {

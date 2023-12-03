@@ -22,7 +22,7 @@ const ALL_INVOICES_QUERY = gql`
 `
 
 const DELETE_INVOICE_MUTATION = gql`
-  mutation DeleteInvoice($id: Int!) {
+  mutation DeleteInvoice($id: String!) {
     deleteInvoice(id: $id) {
       id
     }
@@ -38,7 +38,7 @@ const REQUEST_TO_PAY_MUTATION = gql`
 `
 
 const UPDATE_INVOICE_MUTATION = gql`
-  mutation UpdateInvoice($id: Int!, $input: UpdateInvoiceInput!) {
+  mutation UpdateInvoice($id: String!, $input: UpdateInvoiceInput!) {
     updateInvoice(id: $id, input: $input) {
       id
       status

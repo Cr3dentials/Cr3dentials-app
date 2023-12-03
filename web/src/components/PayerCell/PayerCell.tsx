@@ -4,7 +4,7 @@ import type { FindPayerQuery } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 export const QUERY = gql`
-  query FindPayerQuery($id: Int!) {
+  query FindPayerQuery($id: String!) {
     payer: invoice(id: $id) {
       id
       amount
