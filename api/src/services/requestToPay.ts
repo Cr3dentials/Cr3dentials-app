@@ -9,15 +9,14 @@ export const requestToPay = async (invoice) => {
     const requestOptions = {
       method: 'POST',
       headers: {
-        Authorization: bearerToken,
-        'X-Reference-Id': '2491cfb7-b29c-4342-beb5-d4184dca2d75',
+        Authorization: 'Bearer ' + bearerToken,
+        'X-Reference-Id': 'f2639237-b01c-4c5e-8398-a48ffc1a35b1',
         'X-Target-Environment': 'sandbox',
         'Content-Type': 'application/json',
         'Ocp-Apim-Subscription-Key': subscriptionKey,
       },
       body: JSON.stringify({
-        amount: String(invoice.amount), // convert amount to string
-        currency: 'EUR',
+        amount: String(invoice.amount), // convert amount to string        currency: 'EUR',
         externalId: String(invoice.id), // convert id to string
         payer: {
           partyIdType: 'MSISDN',
@@ -27,13 +26,21 @@ export const requestToPay = async (invoice) => {
         payeeNote: 'Payment for invoice ',
       }),
     }
-
+    console.log('Request headers:', requestOptions.headers)
     const response = await fetch(
       'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
       requestOptions
     )
+    console.log('Response status:', response.status)
+    console.log('Response status text:', response.statusText)
     console.log('Raw response:', response)
-    const data = await response.json()
+
+    const responseBody = await response.text()
+    console.log('Raw response body:', responseBody)
+
+    // Then try to parse it as JSON
+    const data = JSON.parse(responseBody)
+    console.log('Parsed response body:', data)
 
     return data
   } catch (error) {
