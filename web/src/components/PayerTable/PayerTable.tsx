@@ -32,7 +32,7 @@ const DELETE_INVOICE_MUTATION = gql`
 const REQUEST_TO_PAY_MUTATION = gql`
   mutation RequestToPayMutation {
     requestToPay {
-      transactionStatus
+      status
     }
   }
 `

@@ -35,9 +35,9 @@
 //       {isConnected ? (
 //         <p>You are connected</p>
 //       ) : (
-//         // <button className="connectButton" onClick={initializeWeb3Auth}>
-//         //   Connect
-//         // </button>
+//         <button className="connectButton" onClick={initializeWeb3Auth}>
+//           Connect
+//         </button>
 //       )}
 //     </div>
 //   )

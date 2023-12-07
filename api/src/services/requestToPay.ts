@@ -4,16 +4,59 @@ require('dotenv').config()
 const bearerToken = process.env.BEARER_TOKEN
 const subscriptionKey = process.env.SUBSCRIPTION_KEY
 
+// export const requestToPay = async (invoice) => {
+//   try {
+//     const requestOptions = {
+//       method: 'POST',
+//       headers: {
+//         'Authorization': `Bearer ${bearerToken}`,
+//         'X-Reference-Id': '04177603-0b00-45e5-8672-c4e59fa41a2c',
+//         'X-Target-Environment': 'sandbox',
+//         'Content-Type': 'application/json',
+//         'Ocp-Apim-Subscription-Key': '341f313906c349128f2ca52ad7b05381',
+//       },
+//       body: JSON.stringify({
+//         amount: String(invoice.amount), // convert amount to string
+//         currency: 'EUR',
+//         externalId: String(invoice.id), // convert id to string
+//         payer: {
+//           partyIdType: 'MSISDN',
+//           partyId: '46733123453',
+//         },
+//         payerMessage: 'Payment for invoice ',
+//         payeeNote: 'Payment for invoice ',
+
+//       }),
+//     }
+
+//     const response = await fetch(
+//       'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
+//       requestOptions
+//     )
+//     console.log('Raw response:', response)
+//     const data = await response.json()
+
+//     return data
+//   } catch (error) {
+//     console.error('Error during fetch:', error)
+//     return {
+//       status: 'error',
+//       message: 'An error occurred during the fetch request.',
+//       transactionStatus: 'failed',
+//     }
+//   }
+// }
+
 export const requestToPay = async (invoice) => {
   try {
     const requestOptions = {
       method: 'POST',
       headers: {
-        Authorization: bearerToken,
-        'X-Reference-Id': '2491cfb7-b29c-4342-beb5-d4184dca2d75',
+        Authorization: `Bearer ${bearerToken}`,
+        'X-Reference-Id': '04177603-0b00-45e5-8672-c4e59fa41a2c',
         'X-Target-Environment': 'sandbox',
         'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': subscriptionKey,
+        'Ocp-Apim-Subscription-Key':'f5c84f49e4e74a828964b3e17a405975' ,
       },
       body: JSON.stringify({
         amount: String(invoice.amount), // convert amount to string
@@ -25,23 +68,29 @@ export const requestToPay = async (invoice) => {
         },
         payerMessage: 'Payment for invoice ',
         payeeNote: 'Payment for invoice ',
-      }),
-    }
 
+
+      })
+
+    }
+    console.log(requestOptions.body)
+    console.log('Request headers:', requestOptions.headers)
     const response = await fetch(
       'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
       requestOptions
     )
+    console.log('Response status:', response.status)
+    console.log('Response status text:', response.statusText)
     console.log('Raw response:', response)
     const data = await response.json()
+    console.log('Response body:', data)
 
     return data
   } catch (error) {
     console.error('Error during fetch:', error)
     return {
       status: 'error',
-      message: 'An error occurred during the fetch request.',
-      transactionStatus: 'failed',
+      message: 'An error occurred during the fetch request.'
     }
   }
 }

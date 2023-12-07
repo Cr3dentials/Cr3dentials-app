@@ -2,10 +2,9 @@ export const schema = gql`
   type PaymentResponse {
     status: String!
     message: String!
-    transactionStatus: String!
   }
 
   type Mutation {
-    requestToPay: PaymentResponse! @skipAuth
+    requestToPay(id: Int!, amount: Float!, currency: String!): PaymentResponse! @skipAuth
   }
 `

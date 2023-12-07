@@ -8528,7 +8528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3auth/modal@npm:^7.0.2":
+"@web3auth/modal@npm:^7.0.2, @web3auth/modal@npm:^7.2.0":
   version: 7.2.0
   resolution: "@web3auth/modal@npm:7.2.0"
   dependencies:
@@ -12629,7 +12629,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-
 "depd@npm:2.0.0":
   version: 2.0.0
   resolution: "depd@npm:2.0.0"
@@ -16010,7 +16009,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:^5.3.2":
+"ioredis@npm:5.3.2, ioredis@npm:^5.3.2":
   version: 5.3.2
   resolution: "ioredis@npm:5.3.2"
   dependencies:
@@ -21718,6 +21717,7 @@ __metadata:
     "@redwoodjs/graphql-server": ^6.4.0
     "@redwoodjs/realtime": ^6.4.0
     "@redwoodjs/web": ^6.4.0
+    "@web3auth/modal": ^7.2.0
     axios: ^1.6.2
     dotenv: ^16.3.1
     graphql-tag: ^2.12.6

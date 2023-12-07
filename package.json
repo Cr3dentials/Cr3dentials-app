@@ -26,6 +26,7 @@
     "@redwoodjs/graphql-server": "^6.4.0",
     "@redwoodjs/realtime": "^6.4.0",
     "@redwoodjs/web": "^6.4.0",
+    "@web3auth/modal": "^7.2.0",
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
     "graphql-tag": "^2.12.6",

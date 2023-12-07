@@ -4,7 +4,7 @@ import { Link, routes } from '@redwoodjs/router'
 
 // Import your Logo component (if you have one)
 import './Navbar.css'
-// import Wallet from 'src/components/Wallet'
+import Wallet from 'src/components/Wallet/Wallet'
 
 const Navbar = () => {
   return (
