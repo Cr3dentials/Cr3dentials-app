@@ -1,8 +1,16 @@
-import fetch from 'node-fetch'
+import axios from 'axios'
+//import fetch from 'node-fetch'
 require('dotenv').config()
 
-const bearerToken = process.env.BEARER_TOKEN
-const subscriptionKey = process.env.SUBSCRIPTION_KEY
+// const bearerToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6ImY4MjZlMzYxLTQ4MGYtNDM4YS1hZGVlLTAwMDc4MjQxNTViMiIsImV4cGlyZXMiOiIyMDIzLTEyLTA3VDE2OjE3OjA2LjI3MSIsInNlc3Npb25JZCI6Ijk2Y2EyZGMyLWNmMzktNDUxNS04MWFiLTNjN2Q4YzIzNzgzOCJ9.LsPV86Zfrhro5fIPeKq6PznMW6-LhcWKqMPcuKMBCEeQWakBvhx594o4WiL_foF6XH3xzAjpZivJXC-9J7nW2vxaKzqe52IF3N6LnFOYVk9eORSARRrYOIcKNqNjBu4TWraRg40g48wNM-X9W_dWeINoGXkOVYjUcXEeb3-r8CdqXgKMnejWtUYxKd_RlQg6IWh5V59E3DZc0R4IBwqKXPCiELiUCDqXYIYZTI7JGabLLMTeRADrQ3KoslQPFu3SG_3W_IKSVTZQulHTtCldt6bF7WnFblXtpr8sRwnPi8GbA_C3s3Y4BSGEgVrFlQNSyxevHIdUKYmW7khM4XR2nQ'
+// // const bearerToken = process.env.BEARER_TOKEN
+// // const subscriptionKey = process.env.SUBSCRIPTION_KEY
+const subscriptionKey = 'e7b1ece232fc455daed5bfea9a07457c'
+
+const bearerToken =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6IjI4ZTA4NzQ2LTZkNTEtNDJmNC04YzRiLWM4ZjA5ZmE3YTQ0NCIsImV4cGlyZXMiOiIyMDIzLTEyLTA4VDIxOjQ1OjQzLjE3MCIsInNlc3Npb25JZCI6IjA0MzM0NzZkLTA2MGYtNDZmNS1hMzMzLTYxNWIwODU1OGRmNiJ9.SbEAj9AH71iYfsdtMVaqIy4ZwRcLrUEIlTwL1JTIj2w5cJGkFpETAHeXZhjZS7vUPKXJFYJcdQoD3nNxiqCZ5MtiI1lgidQ0JiDFADIRwbUcL3uap46q7KZt0A_XdNdPI0se7UB5WJ-IUqI15UY34IDKu3xjXwBcdj0T1P45cWnSbqqLXJXrV2qmcpeJj6PCiXdFWY9rH80wS89379Fl_ECZOHslAXOUwrcJ1vldDAvIH0L3DynAvsbvGBS69MtAEkkSt2lCI2j4Xw-iYlSyV_hzgZgE5sTmo3RC1e711EK2f-mo_YLTjkoTik4sZWzH3RvBX2X6AnZMswboPeL-Kg'
+
+const xReferenceId = '940f6c78-af13-4ae7-91c9-ff6494c87e77'
 
 // export const requestToPay = async (invoice) => {
 //   try {
@@ -49,42 +57,38 @@ const subscriptionKey = process.env.SUBSCRIPTION_KEY
 
 export const requestToPay = async (invoice) => {
   try {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${bearerToken}`,
-        'X-Reference-Id': '04177603-0b00-45e5-8672-c4e59fa41a2c',
-        'X-Target-Environment': 'sandbox',
-        'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key':'f5c84f49e4e74a828964b3e17a405975' ,
+    const body = JSON.stringify({
+      amount: `${invoice.input.amount}`,
+      currency: `${invoice.input.currency}`,
+      externalId: `${invoice.input.id}`,
+      payer: {
+        partyIdType: 'MSISDN',
+        partyId: '46733123453',
       },
-      body: JSON.stringify({
-        amount: String(invoice.amount), // convert amount to string
-        currency: 'EUR',
-        externalId: String(invoice.id), // convert id to string
-        payer: {
-          partyIdType: 'MSISDN',
-          partyId: '46733123453',
-        },
-        payerMessage: 'Payment for invoice ',
-        payeeNote: 'Payment for invoice ',
+      payerMessage: 'Payment for order',
+      payeeNote: 'Payment for order',
+    })
 
-
-      })
-
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
+      headers: {
+        'X-Reference-Id': xReferenceId,
+        'X-Target-Environment': 'sandbox',
+        'Ocp-Apim-Subscription-Key': subscriptionKey,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${bearerToken}`,
+      },
+      data: body,
     }
-    console.log(requestOptions.body)
-    console.log('Request headers:', requestOptions.headers)
-    const response = await fetch(
-      'https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay',
-      requestOptions
-    )
-    console.log('Response status:', response.status)
-    console.log('Response status text:', response.statusText)
-    console.log('Raw response:', response)
-    const data = await response.json()
-    console.log('Response body:', data)
+    console.log(body)
+    const response = await axios.request(config)
 
+    console.log('ALLLL OKAY')
+    const data = response.data
+
+    console.log('Parsed response body:', data, 'DONEEEEEEEEEEEE')
     return data
   } catch (error) {
     console.error('Error during fetch:', error)
