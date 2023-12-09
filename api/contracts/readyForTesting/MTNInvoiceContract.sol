@@ -4,8 +4,10 @@ contract InvoiceContract {
     /**TODO
     - change Status from string to enum as seen in the comments
     - create events for activities such as createInvoice etc
+    - discuss the difference between late and overdue
      */
     // enum Status{ ACTIVE, PAID, PAID_EARLY, LATE, OVERDUE }
+
     struct Invoice {
         uint id;
         uint dueDate;
@@ -74,10 +76,19 @@ contract InvoiceContract {
         creditScores[invoice.payer].paidEarlyTokens++;
     }
 
+    /** TODO
+    - discuss why the payer marks the invoice as late */
     function markAsLate(uint _id) public {
         require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
+
         Invoice storage invoice = invoices[_id];
+
         require(msg.sender == invoice.payer, "Only the payer can mark the invoice as late");
+        require(keccak256(abi.encodePacked(invoice.status)) == keccak256(abi.encodePacked("Active"))
+        ||
+        keccak256(abi.encodePacked(invoice.status)) == keccak256(abi.encodePacked("Overdue")),
+        "Invoice already marked as paid or late");
+
         // invoice.status = Status.LATE;
         invoice.status = "Late";
         creditScores[invoice.payer].lateTokens++;
