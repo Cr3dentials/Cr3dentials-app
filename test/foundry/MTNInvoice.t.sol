@@ -402,6 +402,16 @@ contract MTNInvoice is Test {
       assertEq(status, "Late");
     }
 
+    function testFuzz_markAsLateRevertsForNonExistentInvoice(
+      uint invoiceId
+    ) public{
+      //mark as paid as platform address
+      vm.prank(payer);
+
+      vm.expectRevert(bytes("This invoice is invalid"));
+      invoiceContract.markAsLate(invoiceId); //this fails as expected
+    }
+
     function test_markAsLateShouldRevertIfAlreadyPaid() public{
       uint invoiceId = 1;
       uint dueDate = block.timestamp-1;
