@@ -25,6 +25,7 @@ contract MTNInvoice is Test {
         assertEq(id, invoiceId);
         assertEq(dd, dueDate);
         assertEq(amt, amount);
+        assertEq(status, "Active");
         assertEq(invoicer, sender);
         assertEq(pyr, payer);
     }
@@ -40,6 +41,7 @@ contract MTNInvoice is Test {
         assertEq(id, invoiceId);
         assertEq(dd, dueDate);
         assertEq(amt, amount);
+        assertEq(status, "Active");
         assertEq(invoicer, sender);
         assertEq(pyr, payer);
     }
@@ -53,6 +55,8 @@ contract MTNInvoice is Test {
         uint amount = 100;
         address payable payer = payable(vm.addr(2));
         address sender = address(this);
+
+
         invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
         uint amountDup = 200;
@@ -64,6 +68,7 @@ contract MTNInvoice is Test {
         assertEq(id, invoiceId);
         assertEq(dd, dueDate);
         assertEq(amt, amountDup);
+        assertEq(status, "Active");
         assertEq(invoicer, sender);
         assertEq(pyr, payer);
     }
@@ -73,7 +78,7 @@ contract MTNInvoice is Test {
       uint dueDate = 1702047418556;
       uint amount = 100;
       address payable payer = payable(vm.addr(2));
-      address sender = address(this);
+
       //create invoice
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
@@ -82,7 +87,7 @@ contract MTNInvoice is Test {
       invoiceContract.markAsPaid(invoiceId);
 
       // Accessing the Invoice
-      (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
+      (,,,string memory status,,) = invoiceContract.invoices(invoiceId);
       assertEq(status, "Paid");
     }
 
@@ -95,7 +100,6 @@ contract MTNInvoice is Test {
 
       vm.assume(amount > 0 ether);
 
-      address sender = address(this);
       //create invoice
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
@@ -104,36 +108,22 @@ contract MTNInvoice is Test {
       invoiceContract.markAsPaid(invoiceId);
 
       // Accessing the Invoice
-      (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
+      (,,, string memory status,,) = invoiceContract.invoices(invoiceId);
       assertEq(status, "Paid");
     }
 
     function test_markAsPaidForNonExistentInvoice() public{
       uint invoiceId = 1;
-      uint dueDate = 1702047418556;
-      uint amount = 100;
-      address payable payer = payable(vm.addr(2));
-      address sender = address(this);
 
       //mark as paid as platform address
       vm.prank(platformAddress);
       vm.expectRevert(bytes("This invoice is invalid"));
       invoiceContract.markAsPaid(invoiceId);
-      // invoiceContract.markAsPaid(invoiceId);
-
-      // Accessing the Invoice
-      // (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
-      // assertEq(status, "Paid");
     }
 
     function testFailFuzz_markAsPaidRevertsForNonExistentInvoice(
-      uint invoiceId,
-      uint dueDate,
-      uint amount,
-      address payable payer
+      uint invoiceId
     ) public{
-      address sender = address(this);
-
       //mark as paid as platform address
       vm.prank(platformAddress);
 
@@ -145,7 +135,6 @@ contract MTNInvoice is Test {
       uint dueDate = 1702047418556;
       uint amount = 100;
       address payable payer = payable(vm.addr(2));
-      address sender = address(this);
 
       //create invoice
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
@@ -160,7 +149,6 @@ contract MTNInvoice is Test {
       uint dueDate = 1702047418556;
       uint amount = 100;
       address payable payer = payable(vm.addr(2));
-      address sender = address(this);
 
       //create invoice
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
@@ -184,8 +172,6 @@ contract MTNInvoice is Test {
     ) public{
       vm.assume(amount > 0 ether);
 
-      address sender = address(this);
-
       //create invoice
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
@@ -198,6 +184,52 @@ contract MTNInvoice is Test {
       vm.prank(platformAddress);
       vm.expectRevert(bytes("Invoice already marked as paid"));
       invoiceContract.markAsPaid(invoiceId);
+    }
+
+    function test_markAsPaidTokenIncrement() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      (uint paidTokensBefore,,,) = invoiceContract.creditScores(payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaid(invoiceId);
+
+      (uint paidTokensAfter,,,) = invoiceContract.creditScores(payer);
+
+      assertEq(paidTokensAfter, paidTokensBefore+1);
+    }
+
+    function testFuzz_markAsPaidTokenIncrementNoDupes(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer
+    ) public{
+      vm.assume(amount > 0 ether);
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      (uint paidTokensBefore,,,) = invoiceContract.creditScores(payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaid(invoiceId);
+
+      //mark as paid twice should fail
+      vm.prank(platformAddress);
+      vm.expectRevert(bytes("Invoice already marked as paid"));
+      invoiceContract.markAsPaid(invoiceId);
+
+      (uint paidTokensAfter,,,) = invoiceContract.creditScores(payer);
+      assertEq(paidTokensAfter, paidTokensBefore+1);
     }
 
 }

@@ -52,6 +52,9 @@ contract InvoiceContract {
         creditScores[invoice.payer].paidTokens++;
     }
 
+    /** TODO
+    - discuss whether the contract should decide whether something was paid early,
+    instead of the caller (which may be centralized) */
     function markAsPaidEarly(uint _id) public {
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid early");
         Invoice storage invoice = invoices[_id];
