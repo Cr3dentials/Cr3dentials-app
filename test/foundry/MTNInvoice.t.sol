@@ -137,10 +137,10 @@ contract MTNInvoice is Test {
       //mark as paid as platform address
       vm.prank(platformAddress);
 
-      invoiceContract.markAsPaid(invoiceId); //this fails
+      invoiceContract.markAsPaid(invoiceId); //this fails as expected
     }
 
-    function testFail_markAsPaidForInvalidPlatformAddress() public{
+    function test_markAsPaidForInvalidPlatformAddress() public{
       uint invoiceId = 1;
       uint dueDate = 1702047418556;
       uint amount = 100;
@@ -151,11 +151,29 @@ contract MTNInvoice is Test {
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
       //mark as paid
+      vm.expectRevert(bytes("Only the platform can mark the invoice as paid"));
+      invoiceContract.markAsPaid(invoiceId);
+    }
+
+    function test_markAsPaidAlreadyPaidReverts() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+      address sender = address(this);
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid
+      //mark as paid as platform address
+      vm.prank(platformAddress);
       invoiceContract.markAsPaid(invoiceId);
 
-      // Accessing the Invoice
-      (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
-      assertEq(status, "Paid");
+      //mark as paid twice should fail
+      vm.prank(platformAddress);
+      vm.expectRevert(bytes("Invoice already marked as paid"));
+      invoiceContract.markAsPaid(invoiceId);
     }
 
 }
