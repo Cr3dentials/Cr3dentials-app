@@ -41,6 +41,7 @@ contract InvoiceContract {
     function markAsPaid(uint _id) public {
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid");
         Invoice storage invoice = invoices[_id];
+        require(invoice.id == _id, "This invoice id does not exist");
         // invoice.status = Status.PAID;
         invoice.status = "Paid";
         creditScores[invoice.payer].paidTokens++;
