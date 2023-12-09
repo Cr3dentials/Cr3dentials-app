@@ -5,10 +5,10 @@ import {Test, console2} from "forge-std/Test.sol";
 import {InvoiceContract} from "api/contracts/readyForTesting/MTNInvoiceContract.sol";
 contract MTNInvoice is Test {
     InvoiceContract public invoiceContract;
-    address public platformAdddress = vm.addr(1);
+    address public platformAddress = vm.addr(1);
 
     function setUp() public {
-        invoiceContract = new InvoiceContract(platformAdddress);
+        invoiceContract = new InvoiceContract(platformAddress);
     }
 
     function test_createInvoice() public {
@@ -65,6 +65,39 @@ contract MTNInvoice is Test {
         assertEq(amt, amountDup);
         assertEq(invoicer, sender);
         assertEq(pyr, payer);
+    }
+
+    function test_markAsPaid() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+      address sender = address(this);
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaid(invoiceId);
+
+      // Accessing the Invoice
+      (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
+      assertEq(status, "Paid");
+    }
+
+    function testFail_markAsPaidForNonExistentInvoice() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+      address sender = address(this);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaid(invoiceId);
+
+      // Accessing the Invoice
+      (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
+      assertEq(status, "Paid");
     }
 
 }

@@ -1,6 +1,11 @@
 pragma solidity ^0.8.22;
 
 contract InvoiceContract {
+    /**TODO
+    - change Status from string to enum as seen in the comments
+    - create events for activities such as createInvoice etc
+     */
+    // enum Status{ ACTIVE, PAID, PAID_EARLY, LATE, OVERDUE }
     struct Invoice {
         uint id;
         uint dueDate;
@@ -29,12 +34,14 @@ contract InvoiceContract {
     /**TODO
     check if the ID already exists and decide how to handle duplicates */
     function createInvoice(uint _id, uint _dueDate, uint _amount, address payable _payer) public {
+        // invoices[_id] = Invoice(_id, _dueDate, _amount, Status.ACTIVE, payable(msg.sender), _payer);
         invoices[_id] = Invoice(_id, _dueDate, _amount, "Active", payable(msg.sender), _payer);
     }
 
     function markAsPaid(uint _id) public {
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid");
         Invoice storage invoice = invoices[_id];
+        // invoice.status = Status.PAID;
         invoice.status = "Paid";
         creditScores[invoice.payer].paidTokens++;
     }
@@ -42,6 +49,7 @@ contract InvoiceContract {
     function markAsPaidEarly(uint _id) public {
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid early");
         Invoice storage invoice = invoices[_id];
+        // invoice.status = Status.PAID_EARLY;
         invoice.status = "Paid Early";
         creditScores[invoice.payer].paidEarlyTokens++;
     }
@@ -50,6 +58,7 @@ contract InvoiceContract {
         require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
         require(msg.sender == invoice.payer, "Only the payer can mark the invoice as late");
+        // invoice.status = Status.LATE;
         invoice.status = "Late";
         creditScores[invoice.payer].lateTokens++;
     }
@@ -58,6 +67,7 @@ contract InvoiceContract {
         require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
         require(msg.sender == invoice.payer, "Only the payer can mark the invoice as overdue");
+        // invoice.status = Status.OVERDUE;
         invoice.status = "Overdue";
         creditScores[invoice.payer].overdueTokens++;
     }
