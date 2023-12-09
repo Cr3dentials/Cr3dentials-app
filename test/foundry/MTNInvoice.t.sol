@@ -30,6 +30,7 @@ contract MTNInvoice is Test {
     }
 
     function testFuzz_createInvoice(uint invoiceId, uint dueDate, uint amount, address payable payer) public {
+        vm.assume(amount > 0 ether);
         address sender = address(this);
         invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
@@ -85,12 +86,18 @@ contract MTNInvoice is Test {
       assertEq(status, "Paid");
     }
 
-    function testFail_markAsPaidForNonExistentInvoice() public{
-      uint invoiceId = 1;
-      uint dueDate = 1702047418556;
-      uint amount = 100;
-      address payable payer = payable(vm.addr(2));
+    function testFuzz_markAsPaid(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer)
+      public{
+
+      vm.assume(amount > 0 ether);
+
       address sender = address(this);
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
       //mark as paid as platform address
       vm.prank(platformAddress);
@@ -99,6 +106,38 @@ contract MTNInvoice is Test {
       // Accessing the Invoice
       (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
       assertEq(status, "Paid");
+    }
+
+    function test_markAsPaidForNonExistentInvoice() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+      address sender = address(this);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      vm.expectRevert(bytes("This invoice is invalid"));
+      invoiceContract.markAsPaid(invoiceId);
+      // invoiceContract.markAsPaid(invoiceId);
+
+      // Accessing the Invoice
+      // (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
+      // assertEq(status, "Paid");
+    }
+
+    function testFailFuzz_markAsPaidRevertsForNonExistentInvoice(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer
+    ) public{
+      address sender = address(this);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+
+      invoiceContract.markAsPaid(invoiceId); //this fails
     }
 
     function testFail_markAsPaidForInvalidPlatformAddress() public{

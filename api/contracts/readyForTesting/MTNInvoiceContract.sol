@@ -35,13 +35,14 @@ contract InvoiceContract {
     check if the ID already exists and decide how to handle duplicates */
     function createInvoice(uint _id, uint _dueDate, uint _amount, address payable _payer) public {
         // invoices[_id] = Invoice(_id, _dueDate, _amount, Status.ACTIVE, payable(msg.sender), _payer);
+        require(_amount > 0, "Non-zero invoice amount required");
         invoices[_id] = Invoice(_id, _dueDate, _amount, "Active", payable(msg.sender), _payer);
     }
 
     function markAsPaid(uint _id) public {
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid");
         Invoice storage invoice = invoices[_id];
-        require(invoice.id == _id, "This invoice id does not exist");
+        require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
         // invoice.status = Status.PAID;
         invoice.status = "Paid";
         creditScores[invoice.payer].paidTokens++;
