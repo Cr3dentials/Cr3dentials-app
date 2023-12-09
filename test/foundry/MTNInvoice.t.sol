@@ -176,4 +176,28 @@ contract MTNInvoice is Test {
       invoiceContract.markAsPaid(invoiceId);
     }
 
+    function testFuzz_markAsPaidAlreadyPaidReverts(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer
+    ) public{
+      vm.assume(amount > 0 ether);
+
+      address sender = address(this);
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaid(invoiceId);
+
+      //mark as paid twice should fail
+      vm.prank(platformAddress);
+      vm.expectRevert(bytes("Invoice already marked as paid"));
+      invoiceContract.markAsPaid(invoiceId);
+    }
+
 }
