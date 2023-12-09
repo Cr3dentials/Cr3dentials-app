@@ -132,3 +132,12 @@ The best way to learn Redwood is by going through the comprehensive [tutorial](h
 
 # Miscellaneous
 - Steps followed to import foundry to project https://www.helpmegeek.com/how-to-integrate-foundry-hardhat-project/
+
+
+# Smart Contract Tests
+## Get started
+`forge install`
+`forge build`
+
+## Run Tests
+`forge test --summary -vvv`
