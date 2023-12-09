@@ -73,6 +73,7 @@ contract MTNInvoice is Test {
       uint amount = 100;
       address payable payer = payable(vm.addr(2));
       address sender = address(this);
+      //create invoice
       invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
       //mark as paid as platform address
@@ -93,6 +94,24 @@ contract MTNInvoice is Test {
 
       //mark as paid as platform address
       vm.prank(platformAddress);
+      invoiceContract.markAsPaid(invoiceId);
+
+      // Accessing the Invoice
+      (uint id, uint dd, uint amt, string memory status, address invoicer, address pyr) = invoiceContract.invoices(invoiceId);
+      assertEq(status, "Paid");
+    }
+
+    function testFail_markAsPaidForInvalidPlatformAddress() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+      address sender = address(this);
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid
       invoiceContract.markAsPaid(invoiceId);
 
       // Accessing the Invoice
