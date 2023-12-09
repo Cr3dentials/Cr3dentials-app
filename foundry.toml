@@ -1,7 +1,10 @@
 [profile.default]
-src = "api/contracts/foundry"
+src = "api/contracts/readyForTesting"
 test = "test/foundry"
 out = "foundryOut"
 libs = ["lib"]
+remappings = [
+    "@openzeppelin/contracts=node_modules/@openzeppelin/contracts/"
+]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
