@@ -45,7 +45,10 @@ contract InvoiceContract {
         Invoice storage invoice = invoices[_id];
 
         require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
-        require(keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid")), "Invoice already marked as paid");
+        require(keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid"))
+        &&
+        keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid Early")),
+        "Invoice already marked as paid");
 
         // invoice.status = Status.PAID;
         invoice.status = "Paid";
@@ -57,7 +60,15 @@ contract InvoiceContract {
     instead of the caller (which may be centralized) */
     function markAsPaidEarly(uint _id) public {
         require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid early");
+
         Invoice storage invoice = invoices[_id];
+
+        require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
+        require(keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid"))
+        &&
+        keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid Early")),
+        "Invoice already marked as paid");
+
         // invoice.status = Status.PAID_EARLY;
         invoice.status = "Paid Early";
         creditScores[invoice.payer].paidEarlyTokens++;

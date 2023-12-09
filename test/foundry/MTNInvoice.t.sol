@@ -121,12 +121,13 @@ contract MTNInvoice is Test {
       invoiceContract.markAsPaid(invoiceId);
     }
 
-    function testFailFuzz_markAsPaidRevertsForNonExistentInvoice(
+    function testFuzz_markAsPaidRevertsForNonExistentInvoice(
       uint invoiceId
     ) public{
       //mark as paid as platform address
       vm.prank(platformAddress);
 
+      vm.expectRevert(bytes("This invoice is invalid"));
       invoiceContract.markAsPaid(invoiceId); //this fails as expected
     }
 
@@ -164,7 +165,7 @@ contract MTNInvoice is Test {
       invoiceContract.markAsPaid(invoiceId);
     }
 
-    function testFuzz_markAsPaidAlreadyPaidReverts(
+    function testFuzz_markAsPaidDupeReverts(
       uint invoiceId,
       uint dueDate,
       uint amount,
@@ -232,4 +233,132 @@ contract MTNInvoice is Test {
       assertEq(paidTokensAfter, paidTokensBefore+1);
     }
 
+    function test_markAsPaidEarly() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaidEarly(invoiceId);
+
+      // Accessing the Invoice
+      (,,,string memory status,,) = invoiceContract.invoices(invoiceId);
+      assertEq(status, "Paid Early");
+    }
+
+    function testFuzz_markAsPaidEarly(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer)
+      public{
+
+      vm.assume(amount > 0 ether);
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaidEarly(invoiceId);
+
+      // Accessing the Invoice
+      (,,, string memory status,,) = invoiceContract.invoices(invoiceId);
+      assertEq(status, "Paid Early");
+    }
+
+    function test_markAsPaidEarlyForInvalidPlatformAddress() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid
+      vm.expectRevert(bytes("Only the platform can mark the invoice as paid"));
+      invoiceContract.markAsPaid(invoiceId);
+    }
+
+    function test_markAsPaidEarlyDupeReverts() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      //mark as paid
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaidEarly(invoiceId);
+
+      //mark as paid twice should fail
+      vm.prank(platformAddress);
+      vm.expectRevert(bytes("Invoice already marked as paid"));
+      invoiceContract.markAsPaid(invoiceId);
+    }
+
+    function testFuzz_markAsPaidEarlyRevertsForNonExistentInvoice(
+      uint invoiceId
+    ) public{
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+
+      vm.expectRevert(bytes("This invoice is invalid"));
+      invoiceContract.markAsPaid(invoiceId); //this fails as expected
+    }
+
+    function test_markAsPaidEarlyTokenIncrement() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      ( , uint paidEarlyTokensBefore,,) = invoiceContract.creditScores(payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaidEarly(invoiceId);
+
+      ( ,uint paidEarlyTokensAfter,,) = invoiceContract.creditScores(payer);
+
+      assertEq(paidEarlyTokensAfter, paidEarlyTokensBefore+1);
+    }
+
+    function testFuzz_markAsPaidEarlyTokenIncrementNoDupes(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer
+    ) public{
+      vm.assume(amount > 0 ether);
+
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      (,uint paidEarlyTokensBefore,,) = invoiceContract.creditScores(payer);
+
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.markAsPaidEarly(invoiceId);
+
+      //mark as paid twice should fail
+      vm.prank(platformAddress);
+      vm.expectRevert(bytes("Invoice already marked as paid"));
+      invoiceContract.markAsPaidEarly(invoiceId);
+
+      (,uint paidEarlyTokensAfter,,) = invoiceContract.creditScores(payer);
+      assertEq(paidEarlyTokensAfter, paidEarlyTokensBefore+1);
+    }
 }
