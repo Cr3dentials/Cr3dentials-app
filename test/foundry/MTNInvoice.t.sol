@@ -406,7 +406,7 @@ contract MTNInvoice is Test {
       uint invoiceId
     ) public{
       //mark as paid as platform address
-      vm.prank(payer);
+      vm.prank(msg.sender);
 
       vm.expectRevert(bytes("This invoice is invalid"));
       invoiceContract.markAsLate(invoiceId); //this fails as expected

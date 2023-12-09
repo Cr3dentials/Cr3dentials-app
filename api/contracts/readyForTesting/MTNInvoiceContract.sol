@@ -83,6 +83,8 @@ contract InvoiceContract {
 
         Invoice storage invoice = invoices[_id];
 
+        require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
+
         require(msg.sender == invoice.payer, "Only the payer can mark the invoice as late");
         require(keccak256(abi.encodePacked(invoice.status)) == keccak256(abi.encodePacked("Active"))
         ||
