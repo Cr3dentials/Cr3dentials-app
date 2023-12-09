@@ -96,6 +96,8 @@ contract InvoiceContract {
         creditScores[invoice.payer].lateTokens++;
     }
 
+    /**TODO
+    add tests */
     function markAsOverdue(uint _id) public {
         require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
         Invoice storage invoice = invoices[_id];
@@ -105,6 +107,8 @@ contract InvoiceContract {
         creditScores[invoice.payer].overdueTokens++;
     }
 
+    /**TODO
+    add tests */
     function cancelInvoice(uint _id) public {
         Invoice storage invoice = invoices[_id];
         require(msg.sender == invoice.invoicer, "Only the invoicer can cancel the invoice");
