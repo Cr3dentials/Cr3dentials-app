@@ -110,6 +110,7 @@ contract InvoiceContract {
     /**TODO
     add tests */
     function cancelInvoice(uint _id) public {
+        //an invoice can only be cancelled if it hasn't been paid
         Invoice storage invoice = invoices[_id];
         require(msg.sender == invoice.invoicer, "Only the invoicer can cancel the invoice");
         delete invoices[_id];
