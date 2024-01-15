@@ -7,7 +7,7 @@ contract InvoiceContract {
     - discuss the difference between late and overdue
      */
     enum PaymentStatus { UNPAID, PAID }
-    enum PaymentTiming { NOTSET, EARLY, ONTIME, LATE}
+    enum PaymentPhase { PENDING, EARLY, ONTIME, LATE}
 
     struct Invoice {
         uint id;
@@ -17,7 +17,7 @@ contract InvoiceContract {
         address payable payer;
         uint datePaid;
         PaymentStatus paymentStatus;
-        PaymentTiming paymentTiming;
+        PaymentPhase paymentTiming;
     }
 
     struct CreditScore {
@@ -51,7 +51,7 @@ contract InvoiceContract {
             _payer,
             0,
             PaymentStatus.UNPAID,
-            PaymentTiming.NOTSET
+            PaymentPhase.PENDING
         );
     }
 
@@ -67,9 +67,9 @@ contract InvoiceContract {
 
         uint aDay = 86400;
 
-        PaymentTiming timing = (datePaid > invoices[_id].dueDate)
-            ? PaymentTiming.LATE
-            :((datePaid < invoices[_id].dueDate - aDay) ? PaymentTiming.EARLY : PaymentTiming.ONTIME);
+        PaymentPhase timing = (datePaid > invoices[_id].dueDate)
+            ? PaymentPhase.LATE
+            :((datePaid < invoices[_id].dueDate - aDay) ? PaymentPhase.EARLY : PaymentPhase.ONTIME);
 
         invoices[_id].datePaid = datePaid;
         invoices[_id].paymentStatus = PaymentStatus.PAID;

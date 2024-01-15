@@ -22,7 +22,7 @@ contract MTNInvoice is Test {
         // Accessing the Invoice
         (uint id, uint dd, uint amt, address invoicer,
         address pyr, uint256 datePaid, InvoiceContract.PaymentStatus paymentStatus,
-        InvoiceContract.PaymentTiming paymentTiming) = invoiceContract.invoices(invoiceId);
+        InvoiceContract.PaymentPhase paymentPhase) = invoiceContract.invoices(invoiceId);
 
         assertEq(id, invoiceId);
         assertEq(dd, dueDate);
@@ -31,7 +31,7 @@ contract MTNInvoice is Test {
         assertEq(pyr, payer);
         assertEq(datePaid, 0);
         assertTrue(paymentStatus == InvoiceContract.PaymentStatus.UNPAID);
-        assertTrue(paymentTiming == InvoiceContract.PaymentTiming.NOTSET);
+        assertTrue(paymentPhase == InvoiceContract.PaymentPhase.PENDING);
 
 
     }
@@ -44,7 +44,7 @@ contract MTNInvoice is Test {
           // Accessing the Invoice
         (uint id, uint dd, uint amt, address invoicer,
         address pyr, uint256 datePaid, InvoiceContract.PaymentStatus paymentStatus,
-        InvoiceContract.PaymentTiming paymentTiming) = invoiceContract.invoices(invoiceId);
+        InvoiceContract.PaymentPhase paymentPhase) = invoiceContract.invoices(invoiceId);
 
         assertEq(id, invoiceId);
         assertEq(dd, dueDate);
@@ -53,7 +53,7 @@ contract MTNInvoice is Test {
         assertEq(pyr, payer);
         assertEq(datePaid, 0);
         assertTrue(paymentStatus == InvoiceContract.PaymentStatus.UNPAID);
-        assertTrue(paymentTiming == InvoiceContract.PaymentTiming.NOTSET);
+        assertTrue(paymentPhase == InvoiceContract.PaymentPhase.PENDING);
     }
 
     // /** TODO
