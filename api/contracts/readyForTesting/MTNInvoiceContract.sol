@@ -41,8 +41,11 @@ contract InvoiceContract {
     how would we deal with amounts given that the invoice would be paid with different real world currency amounts
     does the currency need to be stored*/
     function createInvoice(uint _id, uint _dueDate, uint _amount, address payable _payer) public {
+        uint onemonth = 86400 * 30;
         require(invoices[_id].id == 0, "An invoice with this ID has already been created");
         require(_amount > 0, "Invoice amount must be greater than 0");
+        // require(_dueDate> (block.timestamp-onemonth), "Date too far in the past");
+
         invoices[_id] = Invoice(
             _id,
             _dueDate,
@@ -65,7 +68,7 @@ contract InvoiceContract {
         require(datePaid>0, "date paid cannot be zero");
         require(invoices[_id].id != 0, "This invoice does not exist");
         require(invoices[_id].paymentStatus != PaymentStatus.PAID, "This invoice is already marked as paid");
-
+        require(datePaid>86400, "Date too far in the past");
         uint aDay = 86400;
 
         PaymentPhase timing = (datePaid > invoices[_id].dueDate)

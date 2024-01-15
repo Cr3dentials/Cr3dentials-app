@@ -38,6 +38,8 @@ contract MTNInvoiceTest is Test {
 
     function testFuzz_createInvoice(uint invoiceId, uint dueDate, uint amount, address payable payer) public {
         vm.assume(amount > 0 ether);
+        vm.assume(dueDate> 86400);
+
         address sender = address(this);
         invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
@@ -101,31 +103,32 @@ contract MTNInvoiceTest is Test {
       assertTrue(status==InvoiceContract.PaymentStatus.PAID);
     }
 
-    // function testFuzz_markAsPaid(
-    //   uint invoiceId,
-    //   uint dueDate,
-    //   uint amount,
-    //   address payable payer,
-    //   uint datePaid)
-    //   public{
+    function testFuzz_markAsPaid(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      address payable payer,
+      uint datePaid)
+      public{
 
-    //   vm.assume(amount > 0 ether);
-    //   vm.assume(dueDate > 0 ether);
-    //   vm.assume(datePaid > 0 ether);
-    //   vm.assume(invoiceId > 0 ether);
+      vm.assume(amount > 0 ether);
+      vm.assume(dueDate > 86400);
+      vm.assume(dueDate> 86400);
+      vm.assume(datePaid > 86400);
+      vm.assume(invoiceId > 0);
 
 
-    //    //create invoice
-    //   invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+       //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
-    //   //mark as paid as platform address
-    //   vm.prank(platformAddress);
-    //   invoiceContract.updateInvoicePaymentInfo(invoiceId,dueDate);
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.updateInvoicePaymentInfo(invoiceId,dueDate);
 
-    //   // Accessing the Invoice
-    //   (,,,,,,InvoiceContract.PaymentStatus status,) = invoiceContract.invoices(invoiceId);
-    //   assertTrue(status==InvoiceContract.PaymentStatus.PAID);
-    // }
+      // Accessing the Invoice
+      (,,,,,,InvoiceContract.PaymentStatus status,) = invoiceContract.invoices(invoiceId);
+      assertTrue(status==InvoiceContract.PaymentStatus.PAID);
+    }
 
     // function test_markAsPaidForNonExistentInvoice() public{
     //   uint invoiceId = 1;
