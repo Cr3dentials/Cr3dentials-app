@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Test, console2} from "forge-std/Test.sol";
 import {InvoiceContract} from "api/contracts/readyForTesting/MTNInvoiceContract.sol";
-contract MTNInvoice is Test {
+contract MTNInvoiceTest is Test {
     InvoiceContract public invoiceContract;
     address public platformAddress = vm.addr(1);
 
@@ -97,29 +97,34 @@ contract MTNInvoice is Test {
       invoiceContract.updateInvoicePaymentInfo(invoiceId,dueDate);
 
       // Accessing the Invoice
-      (,,,string memory status,,) = invoiceContract.invoices(invoiceId);
-      assertEq(status, MTNInvoice.PaymentStatus.PAID);
+      (,,,,,,InvoiceContract.PaymentStatus status,) = invoiceContract.invoices(invoiceId);
+      assertTrue(status==InvoiceContract.PaymentStatus.PAID);
     }
 
     // function testFuzz_markAsPaid(
     //   uint invoiceId,
     //   uint dueDate,
     //   uint amount,
-    //   address payable payer)
+    //   address payable payer,
+    //   uint datePaid)
     //   public{
 
     //   vm.assume(amount > 0 ether);
+    //   vm.assume(dueDate > 0 ether);
+    //   vm.assume(datePaid > 0 ether);
+    //   vm.assume(invoiceId > 0 ether);
 
-    //   //create invoice
+
+    //    //create invoice
     //   invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
     //   //mark as paid as platform address
     //   vm.prank(platformAddress);
-    //   invoiceContract.markAsPaid(invoiceId);
+    //   invoiceContract.updateInvoicePaymentInfo(invoiceId,dueDate);
 
     //   // Accessing the Invoice
-    //   (,,, string memory status,,) = invoiceContract.invoices(invoiceId);
-    //   assertEq(status, "Paid");
+    //   (,,,,,,InvoiceContract.PaymentStatus status,) = invoiceContract.invoices(invoiceId);
+    //   assertTrue(status==InvoiceContract.PaymentStatus.PAID);
     // }
 
     // function test_markAsPaidForNonExistentInvoice() public{

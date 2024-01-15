@@ -59,10 +59,11 @@ contract InvoiceContract {
     *TODO
     increment creditscore tokens
     do we only upgrade when the total amount is paid?
+    // Use safemath librarye
     */
     function updateInvoicePaymentInfo(uint _id, uint datePaid) public {
         require(datePaid>0, "date paid cannot be zero");
-        require(invoices[_id].id == 0, "This invoice does not exist");
+        require(invoices[_id].id != 0, "This invoice does not exist");
         require(invoices[_id].paymentStatus != PaymentStatus.PAID, "This invoice is already marked as paid");
 
         uint aDay = 86400;
@@ -147,7 +148,7 @@ contract InvoiceContract {
     add tests
     should it be removed*/
     function cancelInvoice(uint _id) public {
-        require(invoices[_id].id == 0, "This invoice does not exist");
+        require(invoices[_id].id != 0, "This invoice does not exist");
         require(invoices[_id].paymentStatus != PaymentStatus.PAID, "This invoice cannot be removed as it was already paid");
 
         //an invoice can only be cancelled if it hasn't been paid
