@@ -83,23 +83,23 @@ contract MTNInvoice is Test {
     //     assertEq(pyr, payer);
     // }
 
-    // function test_markAsPaid() public{
-    //   uint invoiceId = 1;
-    //   uint dueDate = 1702047418556;
-    //   uint amount = 100;
-    //   address payable payer = payable(vm.addr(2));
+    function test_markAsPaid() public{
+      uint invoiceId = 1;
+      uint dueDate = 1702047418556;
+      uint amount = 100;
+      address payable payer = payable(vm.addr(2));
 
-    //   //create invoice
-    //   invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
 
-    //   //mark as paid as platform address
-    //   vm.prank(platformAddress);
-    //   invoiceContract.markAsPaid(invoiceId);
+      //mark as paid as platform address
+      vm.prank(platformAddress);
+      invoiceContract.updateInvoicePaymentInfo(invoiceId,dueDate);
 
-    //   // Accessing the Invoice
-    //   (,,,string memory status,,) = invoiceContract.invoices(invoiceId);
-    //   assertEq(status, "Paid");
-    // }
+      // Accessing the Invoice
+      (,,,string memory status,,) = invoiceContract.invoices(invoiceId);
+      assertEq(status, MTNInvoice.PaymentStatus.PAID);
+    }
 
     // function testFuzz_markAsPaid(
     //   uint invoiceId,

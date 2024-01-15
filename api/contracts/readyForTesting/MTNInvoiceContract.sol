@@ -17,7 +17,7 @@ contract InvoiceContract {
         address payable payer;
         uint datePaid;
         PaymentStatus paymentStatus;
-        PaymentPhase paymentTiming;
+        PaymentPhase paymentPhase;
     }
 
     struct CreditScore {
@@ -73,7 +73,7 @@ contract InvoiceContract {
 
         invoices[_id].datePaid = datePaid;
         invoices[_id].paymentStatus = PaymentStatus.PAID;
-        invoices[_id].paymentTiming = timing;
+        invoices[_id].paymentPhase = timing;
 
     }
 
