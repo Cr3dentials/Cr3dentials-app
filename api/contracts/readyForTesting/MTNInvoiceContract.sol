@@ -41,7 +41,7 @@ contract InvoiceContract {
     how would we deal with amounts given that the invoice would be paid with different real world currency amounts
     does the currency need to be stored*/
     function createInvoice(uint _id, uint _dueDate, uint _amount, address payable _payer) public {
-        uint onemonth = 86400 * 30;
+        // uint onemonth = 86400 * 30;
         require(invoices[_id].id == 0, "An invoice with this ID has already been created");
         require(_amount > 0, "Invoice amount must be greater than 0");
         // require(_dueDate> (block.timestamp-onemonth), "Date too far in the past");
@@ -60,92 +60,41 @@ contract InvoiceContract {
 
     /*
     *TODO
-    increment creditscore tokens
-    do we only upgrade when the total amount is paid?
-    // Use safemath librarye
+    - do we only upgrade when the total amount is paid?
+    - how to handle overdue
     */
     function updateInvoicePaymentInfo(uint _id, uint datePaid) public {
         require(datePaid>0, "date paid cannot be zero");
         require(invoices[_id].id != 0, "This invoice does not exist");
         require(invoices[_id].paymentStatus != PaymentStatus.PAID, "This invoice is already marked as paid");
+        /**TODO require only the admin(s) of this contract to have the ability to udpate an invoice */
+
         require(datePaid>86400, "Date too far in the past");
         uint aDay = 86400;
+        Invoice memory invoice = invoices[_id];
+        PaymentPhase timing;
+        if (datePaid> invoices[_id].dueDate){
+            timing = PaymentPhase.LATE;
+            creditScores[invoice.payer].lateTokens++;
+        }else if(datePaid< invoices[_id].dueDate - aDay){
+            //if you paid more than 24 hours before the dueDate
+            timing = PaymentPhase.EARLY;
+            creditScores[invoice.payer].paidEarlyTokens++;
+        }else{
+            //paid on time is the remaining option
+            timing = PaymentPhase.ONTIME;
+            creditScores[invoice.payer].paidTokens++;
+        }
 
-        PaymentPhase timing = (datePaid > invoices[_id].dueDate)
-            ? PaymentPhase.LATE
-            :((datePaid < invoices[_id].dueDate - aDay) ? PaymentPhase.EARLY : PaymentPhase.ONTIME);
+        /**TODO create a CRON that checks to see if an invoice is overdue and update it either on or offchain */
 
         invoices[_id].datePaid = datePaid;
         invoices[_id].paymentStatus = PaymentStatus.PAID;
         invoices[_id].paymentPhase = timing;
 
+
     }
 
-    // function markAsPaid(uint _id) public {
-    //     require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid");
-
-    //     Invoice storage invoice = invoices[_id];
-
-    //     require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
-    //     require(keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid"))
-    //     &&
-    //     keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid Early")),
-    //     "Invoice already marked as paid");
-
-    //     // invoice.status = Status.PAID;
-    //     invoice.status = "Paid";
-    //     creditScores[invoice.payer].paidTokens++;
-    // }
-
-    // /** TODO
-    // - discuss whether the contract should decide whether something was paid early,
-    // instead of the caller (which may be centralized) */
-    // function markAsPaidEarly(uint _id) public {
-    //     require(msg.sender == platformAddress, "Only the platform can mark the invoice as paid early");
-
-    //     Invoice storage invoice = invoices[_id];
-
-    //     require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
-    //     require(keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid"))
-    //     &&
-    //     keccak256(abi.encodePacked(invoice.status)) != keccak256(abi.encodePacked("Paid Early")),
-    //     "Invoice already marked as paid");
-
-    //     // invoice.status = Status.PAID_EARLY;
-    //     invoice.status = "Paid Early";
-    //     creditScores[invoice.payer].paidEarlyTokens++;
-    // }
-
-    // /** TODO
-    // - discuss why the payer marks the invoice as late */
-    // function markAsLate(uint _id) public {
-    //     require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
-
-    //     Invoice storage invoice = invoices[_id];
-
-    //     require(invoice.id == _id && invoice.amount > 0, "This invoice is invalid");
-
-    //     require(msg.sender == invoice.payer, "Only the payer can mark the invoice as late");
-    //     require(keccak256(abi.encodePacked(invoice.status)) == keccak256(abi.encodePacked("Active"))
-    //     ||
-    //     keccak256(abi.encodePacked(invoice.status)) == keccak256(abi.encodePacked("Overdue")),
-    //     "Invoice already marked as paid or late");
-
-    //     // invoice.status = Status.LATE;
-    //     invoice.status = "Late";
-    //     creditScores[invoice.payer].lateTokens++;
-    // }
-
-    // /**TODO
-    // add tests */
-    // function markAsOverdue(uint _id) public {
-    //     require(block.timestamp > invoices[_id].dueDate, "The due date has not passed");
-    //     Invoice storage invoice = invoices[_id];
-    //     require(msg.sender == invoice.payer, "Only the payer can mark the invoice as overdue");
-    //     // invoice.status = Status.OVERDUE;
-    //     invoice.status = "Overdue";
-    //     creditScores[invoice.payer].overdueTokens++;
-    // }
 
     /**TODO
     add tests
