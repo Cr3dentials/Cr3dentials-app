@@ -2,8 +2,6 @@ pragma solidity ^0.8.22;
 
 contract InvoiceContract {
     /**TODO
-    - change Status from string to enum as seen in the comments
-    - create events for activities such as createInvoice etc
     - discuss the difference between late and overdue
      */
     enum PaymentStatus { UNPAID, PAID }
@@ -91,7 +89,19 @@ contract InvoiceContract {
         invoices[_id].datePaid = datePaid;
         invoices[_id].paymentStatus = PaymentStatus.PAID;
         invoices[_id].paymentPhase = timing;
+    }
 
+    function markAsOverdue(uint256 _id) public {
+        require(invoices[_id].id != 0, "This invoice does not exist");
+        require(invoices[_id].paymentStatus != PaymentStatus.PAID, "This invoice is already marked as paid");
+        Invoice memory invoice = invoices[_id];
+
+        /** TODO: consider not using block.timestamp */
+        if(invoice.dueDate<block.timestamp){
+            //mark as overdue
+            invoice.paymentPhase = PaymentPhase.LATE;
+            creditScores[invoice.payer].overdueTokens = creditScores[invoice.payer].overdueTokens + 1;
+        }
 
     }
 

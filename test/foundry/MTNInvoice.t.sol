@@ -261,7 +261,8 @@ contract MTNInvoiceTest is Test {
       assertEq(paidEarlyTokensAfter, paidEarlyTokensBefore+1);
     }
 
-    function testFuzz_markAsPaidEarly( uint invoiceId,
+    function testFuzz_markAsPaidEarly(
+      uint invoiceId,
       uint dueDate,
       uint amount,
       uint datePaid,
@@ -336,6 +337,31 @@ contract MTNInvoiceTest is Test {
       ( , , uint lateTokensAfter,) = invoiceContract.creditScores(payer);
 
       assertEq(lateTokensBefore+1, lateTokensAfter);
+    }
+
+    function testFuzz_markAsOverdue(
+      uint invoiceId,
+      uint dueDate,
+      uint amount,
+      uint datePaid,
+      address payable payer
+    ) public{
+      vm.assume(amount > 0 ether);
+      vm.assume(dueDate < block.timestamp);
+      vm.assume(datePaid > dueDate);
+      vm.assume(invoiceId > 0);
+      //create invoice
+      invoiceContract.createInvoice(invoiceId, dueDate, amount, payer);
+
+      ( , , , uint overDueTokensBefore) = invoiceContract.creditScores(payer);
+
+      //mark as late
+      invoiceContract.markAsOverdue(invoiceId);
+
+      // Accessing the Invoice
+      ( , , , uint overDueTokensAfter) = invoiceContract.creditScores(payer);
+
+      assertEq(overDueTokensBefore+1, overDueTokensAfter);
     }
 
 
