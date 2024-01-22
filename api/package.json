@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
     "@redwoodjs/api": "6.3.2",
     "@redwoodjs/graphql-server": "6.3.2"
   }
