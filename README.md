@@ -22,7 +22,7 @@ yarn redwood dev
 Then start the localpostgres database:
 - Follow the instructions here to create the db https://redwoodjs.com/docs/local-postgres-setup
 - use the `.env.example` file to to create your local .env file and ensure that the username for your database url is the same as ${whoami}
-- migrate the db by running 
+- migrate the db by running
 ```
 yarn rw prisma migrate dev
 ```
@@ -128,3 +128,16 @@ The best way to learn Redwood is by going through the comprehensive [tutorial](h
 
 - Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
 - [Learn how to contribute](https://redwoodjs.com/docs/contributing)
+
+
+# Miscellaneous
+- Steps followed to import foundry to project https://www.helpmegeek.com/how-to-integrate-foundry-hardhat-project/
+
+
+# Smart Contract Tests
+## Get started
+`forge install`
+`forge build`
+
+## Run Tests
+`forge test --summary -vvv`
