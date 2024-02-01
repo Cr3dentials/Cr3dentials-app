@@ -30,10 +30,11 @@ contract InvoiceContract {
     mapping(uint => Invoice) public invoices;
     mapping(address => CreditScore) public creditScores;
 
-  address public platformAddress;
+    address public platformAddress;
     mapping(address => bool) public authorizedAddresses;
 
     constructor(address _platformAddress) {
+        require(_platformAddress != address(0), "Platform address cannot be the zero address");
         platformAddress = _platformAddress;
         authorizedAddresses[_platformAddress] = true;
     }
@@ -49,10 +50,12 @@ contract InvoiceContract {
     }
 
     function authorizeAddress(address _address) public onlyPlatform {
+        require(_address != address(0), "Address to authorize cannot be the zero address");
         authorizedAddresses[_address] = true;
     }
 
     function revokeAddress(address _address) public onlyPlatform {
+        require(_address != address(0), "Address to revoke cannot be the zero address");
         authorizedAddresses[_address] = false;
     }
 
