@@ -13,17 +13,21 @@ contract InvoiceContract is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     GoodStandingToken public goodStandingToken;
     DerogatoryToken public derogatoryToken;
 
-   function initialize(address _logic, address _goodStandingToken, address _derogatoryToken) initializer public {
+
+
+   function initialize(address ownerAddress,address _logic, address _goodStandingToken, address _derogatoryToken) initializer public {
     __UUPSUpgradeable_init();
-    __Ownable_init();
+    __Ownable_init(ownerAddress);
     logic = InvoiceContractLogic(_logic);
     goodStandingToken = GoodStandingToken(_goodStandingToken);
     derogatoryToken = DerogatoryToken(_derogatoryToken);
 }
 
 
+
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {
         // The onlyOwner modifier ensures that only the owner can call this function.
+        logic = InvoiceContractLogic(newImplementation);
     }
 
      function createInvoice(address payable _payer, uint256 _amount, uint256 _Fee, uint256 _dueDate) public {

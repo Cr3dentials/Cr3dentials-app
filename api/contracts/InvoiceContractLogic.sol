@@ -19,6 +19,17 @@ contract InvoiceContractLogic {
         uint256 approvals;
     }
 
+   struct InstallmentPlan {
+        uint256 totalInstallments;
+        uint256 amountPerInstallment;
+        uint256 installmentsPaid;
+        uint256 nextPaymentDueDate;
+        bool isActive;
+    }
+
+    mapping(uint256 => InstallmentPlan) public installmentPlans;
+
+
     GoodStandingToken public goodStandingToken;
     DerogatoryToken public derogatoryToken;
 
@@ -68,7 +79,7 @@ contract InvoiceContractLogic {
         invoice.status = Status.Late;
     }
     require(msg.value == amountToPay, "Incorrect payment amount.");
-    
+
     // Check if the transfer is successful
     (bool success, ) = invoice.payee.call{value: msg.value}("");
     require(success, "Transfer failed.");
@@ -107,4 +118,59 @@ function removeDerogatoryNFT(uint256 _invoiceId) public {
 }
 
 
+function createInstallmentPlan(uint256 _invoiceId, uint256 _totalInstallments, uint256 nextPaymentDue) public {
+    Invoice storage invoice = invoices[_invoiceId];
+    require(msg.sender == invoice.payer, "Only the payer can create an installment plan.");
+    require(invoice.status == Status.Active, "Installment plan can only be created for active invoices.");
+    require(_totalInstallments > 0, "Total installments must be greater than 0.");
+    require(!installmentPlans[_invoiceId].isActive, "An installment plan already exists.");
+
+    uint256 amountPerInstallment = invoice.amount / _totalInstallments;
+
+    installmentPlans[_invoiceId] = InstallmentPlan({
+        totalInstallments: _totalInstallments,
+        amountPerInstallment: amountPerInstallment,
+        installmentsPaid: 0,
+        nextPaymentDueDate:nextPaymentDue,
+        isActive: true
+    });
+}
+
+function payInstallment(uint256 _invoiceId) public payable {
+    Invoice storage invoice = invoices[_invoiceId];
+    InstallmentPlan storage plan = installmentPlans[_invoiceId];
+
+    require(msg.sender == invoice.payer, "Only the payer can pay the installment.");
+    require(plan.isActive, "No active installment plan found.");
+    require(invoice.status == Status.Active || invoice.status == Status.Late, "Invoice is not in a payable state.");
+
+    uint256 dueAmount = plan.amountPerInstallment;
+    if (invoice.status == Status.Late) {
+        dueAmount += invoice.Fee / plan.totalInstallments; // Distribute the late fee across installments
+    }
+
+    require(msg.value == dueAmount, "Incorrect installment amount.");
+
+    (bool success, ) = invoice.payee.call{value: msg.value}("");
+    require(success, "Transfer failed.");
+
+    plan.installmentsPaid++;
+    if (plan.installmentsPaid >= plan.totalInstallments) {
+        invoice.status = Status.Paid;
+        emit AboutToMint(invoice.payer, _invoiceId);
+        goodStandingToken.mint(invoice.payer, _invoiceId);
+        plan.isActive = false; // Deactivate the installment plan
+    }
+
+     // Determine the payment status
+    if (block.timestamp < plan.nextPaymentDueDate) {
+        //earlyPaymentToken.mint(msg.sender, _invoiceId); // Mint an early payment token
+    } else if (block.timestamp == plan.nextPaymentDueDate) {
+       // onTimePaymentToken.mint(msg.sender, _invoiceId); // Mint an on-time payment token
+    } else if (block.timestamp > plan.nextPaymentDueDate && block.timestamp <= plan.nextPaymentDueDate ) {
+        //latePaymentToken.mint(msg.sender, _invoiceId); // Mint a late payment token
+    } else {
+        //overduePaymentToken.mint(msg.sender, _invoiceId); // Mint an overdue payment token
+    }
+}
 }

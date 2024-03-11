@@ -23,6 +23,8 @@
   },
   "packageManager": "yarn@3.6.3",
   "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "@redwoodjs/graphql-server": "^6.4.0",
     "@redwoodjs/web": "^6.4.0",
     "axios": "^1.6.2",
