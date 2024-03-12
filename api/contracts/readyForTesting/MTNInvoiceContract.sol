@@ -9,6 +9,17 @@ contract InvoiceContract {
     enum PaymentStatus { UNPAID, PAID }
     enum PaymentPhase { PENDING, EARLY, ONTIME, LATE}
 
+    struct InstallmentPlan {
+    uint256 totalInstallments;
+    uint256 amountPerInstallment;
+    uint256 installmentsPaid;
+    uint256 nextPaymentDueDate;
+    bool isActive;
+    }
+
+    mapping(uint256 => InstallmentPlan) public installmentPlans;
+
+
     struct Invoice {
         uint id;
         uint dueDate;
@@ -94,6 +105,63 @@ contract InvoiceContract {
 
 
     }
+
+    function createInstallmentPlan(uint _invoiceId, uint256 _totalInstallments, uint256 _firstPaymentDueDate) public {
+        Invoice storage invoice = invoices[_invoiceId];
+        require(msg.sender == invoice.invoicer, "Only the invoicer can create an installment plan.");
+        require(invoice.paymentStatus == PaymentStatus.UNPAID, "Cannot create installment plan for this invoice status.");
+        require(_totalInstallments > 0, "Total installments must be greater than 0.");
+        require(!installmentPlans[_invoiceId].isActive, "An installment plan already exists for this invoice.");
+
+        uint256 amountPerInstallment = invoice.amount / _totalInstallments;
+        installmentPlans[_invoiceId] = InstallmentPlan({
+            totalInstallments: _totalInstallments,
+            amountPerInstallment: amountPerInstallment,
+            installmentsPaid: 0,
+            nextPaymentDueDate: _firstPaymentDueDate,
+            isActive: true
+        });
+    }
+
+    function payInstallment(uint _invoiceId) public payable {
+        require(installmentPlans[_invoiceId].isActive, "No active installment plan found.");
+        InstallmentPlan storage plan = installmentPlans[_invoiceId];
+        Invoice storage invoice = invoices[_invoiceId];
+        require(msg.sender == invoice.payer, "Only the payer can make a payment.");
+
+
+           // Check the payment timing and update the credit score accordingly
+        uint currentTimestamp = block.timestamp;
+        if (currentTimestamp < plan.nextPaymentDueDate) {
+            // Early payment
+            creditScores[invoice.payer].paidEarlyTokens += 1;
+        } else if (currentTimestamp == plan.nextPaymentDueDate) {
+            // On-time payment
+            creditScores[invoice.payer].paidTokens += 1;
+        } else if (currentTimestamp > plan.nextPaymentDueDate && currentTimestamp <= plan.nextPaymentDueDate + 1 days) {
+            // Late payment, assuming a 1-day grace period
+            creditScores[invoice.payer].lateTokens += 1;
+        } else {
+            // Overdue payment
+            creditScores[invoice.payer].overdueTokens += 1;
+        }
+
+        // Assuming msg.value is the payment amount
+        require(msg.value == plan.amountPerInstallment, "Payment amount does not match the installment amount.");
+
+        plan.installmentsPaid++;
+        if(plan.installmentsPaid == plan.totalInstallments) {
+            invoice.paymentStatus = PaymentStatus.PAID; // Mark invoice as paid
+        }
+        if(plan.installmentsPaid >= plan.totalInstallments) {
+            invoice.paymentStatus = PaymentStatus.PAID; // Mark invoice as paid
+            delete installmentPlans[_invoiceId]; // Clean up the installment plan
+        } else {
+            plan.nextPaymentDueDate += 30 days; // Update to next due date, assuming monthly installments
+        }
+}
+
+
 
 
     /**TODO
