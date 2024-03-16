@@ -2,6 +2,7 @@ pragma solidity ^0.8.22;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 
 contract InvoiceOnChainContract is Initializable, OwnableUpgradeable{
@@ -55,10 +56,12 @@ contract InvoiceOnChainContract is Initializable, OwnableUpgradeable{
 
     address public platformAddress;
 
-    function initialize(address _platformAddress) public initializer {
-        __Ownable_init(_platformAddress);
-        platformAddress = _platformAddress;
+  function initialize() public  initializer{
+        __UUPSUpgradeable_init();
+        __Ownable_init(msg.sender);
+        platformAddress = msg.sender;
     }
+
 
     /**TODO
     who's calling this function? if it's not always going to be the company then the invoicer should be sent

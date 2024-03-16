@@ -2,9 +2,10 @@ pragma solidity ^0.8.22;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 
-contract InvoiceOffChainContract is Initializable, OwnableUpgradeable{
+contract InvoiceOffChainContract  is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     /**TODO
     - change Status from string to enum as seen in the comments
     - create events for activities such as createInvoice etc
@@ -55,10 +56,17 @@ contract InvoiceOffChainContract is Initializable, OwnableUpgradeable{
 
     address public platformAddress;
 
-    function initialize(address _platformAddress) public initializer {
-        __Ownable_init(_platformAddress);
-        platformAddress = _platformAddress;
+    function initialize() public  initializer{
+        __UUPSUpgradeable_init();
+        __Ownable_init(msg.sender);
+        platformAddress = msg.sender;
     }
+
+     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {
+        // The onlyOwner modifier ensures that only the owner can call this function.
+    }
+
+
 
     /**TODO
     who's calling this function? if it's not always going to be the company then the invoicer should be sent
@@ -143,7 +151,6 @@ function payInstallment(uint _invoiceId,uint value) public  {
     require(installmentPlans[_invoiceId].isActive, "No active installment plan found.");
     InstallmentPlan storage plan = installmentPlans[_invoiceId];
     Invoice storage invoice = invoices[_invoiceId];
-    require(msg.sender == invoice.payer, "Only the payer can make a payment.");
 
     // Check the payment timing and update the credit score accordingly
     uint currentTimestamp = block.timestamp;
@@ -194,4 +201,5 @@ function payInstallment(uint _invoiceId,uint value) public  {
         require(msg.sender == invoice.invoicer, "Only the invoicer can cancel the invoice");
         delete invoices[_id];
     }
+
 }
