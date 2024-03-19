@@ -7,5 +7,6 @@
   },
   "[prisma]": {
     "editor.formatOnSave": true
-  }
+  },
+  "solidity.compileUsingRemoteVersion": "v0.8.22+commit.4fc1097e"
 }
